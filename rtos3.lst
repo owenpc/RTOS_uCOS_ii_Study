@@ -1,0 +1,655 @@
+GAS LISTING /tmp/ccw3hFBc.s 			page 1
+
+
+   1               		.file	"rtos3.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	u1init
+  12               		.type	u1init, @function
+  13               	u1init:
+  14               	/* prologue: function */
+  15               	/* frame size = 0 */
+  16 0000 1092 9800 		sts 152,__zero_reg__
+  17 0004 87E6      		ldi r24,lo8(103)
+  18 0006 8093 9900 		sts 153,r24
+  19 000a EAE9      		ldi r30,lo8(154)
+  20 000c F0E0      		ldi r31,hi8(154)
+  21 000e 8081      		ld r24,Z
+  22 0010 8861      		ori r24,lo8(24)
+  23 0012 8083      		st Z,r24
+  24               	/* epilogue start */
+  25 0014 0895      		ret
+  26               		.size	u1init, .-u1init
+  27               	.global	u1tx
+  28               		.type	u1tx, @function
+  29               	u1tx:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 0016 8093 9C00 		sts 156,r24
+  33               	.L4:
+  34 001a 8091 9B00 		lds r24,155
+  35 001e 85FF      		sbrs r24,5
+  36 0020 00C0      		rjmp .L4
+  37               	/* epilogue start */
+  38 0022 0895      		ret
+  39               		.size	u1tx, .-u1tx
+  40               	.global	u1rx
+  41               		.type	u1rx, @function
+  42               	u1rx:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	.L9:
+  46 0024 8091 9B00 		lds r24,155
+  47 0028 87FF      		sbrs r24,7
+  48 002a 00C0      		rjmp .L9
+  49 002c 8091 9C00 		lds r24,156
+  50               	/* epilogue start */
+  51 0030 0895      		ret
+  52               		.size	u1rx, .-u1rx
+  53               	.global	u1txstr
+  54               		.type	u1txstr, @function
+  55               	u1txstr:
+  56               	/* prologue: function */
+  57               	/* frame size = 0 */
+GAS LISTING /tmp/ccw3hFBc.s 			page 2
+
+
+  58 0032 FC01      		movw r30,r24
+  59 0034 8081      		ld r24,Z
+  60 0036 8823      		tst r24
+  61 0038 01F0      		breq .L16
+  62               	.L17:
+  63 003a 8093 9C00 		sts 156,r24
+  64               	.L14:
+  65 003e 8091 9B00 		lds r24,155
+  66 0042 85FF      		sbrs r24,5
+  67 0044 00C0      		rjmp .L14
+  68 0046 3196      		adiw r30,1
+  69 0048 8081      		ld r24,Z
+  70 004a 8823      		tst r24
+  71 004c 01F4      		brne .L17
+  72               	.L16:
+  73 004e 0895      		ret
+  74               		.size	u1txstr, .-u1txstr
+  75               	.global	inittimer
+  76               		.type	inittimer, @function
+  77               	inittimer:
+  78               	/* prologue: function */
+  79               	/* frame size = 0 */
+  80 0050 12BE      		out 82-32,__zero_reg__
+  81 0052 87E0      		ldi r24,lo8(7)
+  82 0054 83BF      		out 83-32,r24
+  83 0056 81E0      		ldi r24,lo8(1)
+  84 0058 87BF      		out 87-32,r24
+  85               	/* epilogue start */
+  86 005a 0895      		ret
+  87               		.size	inittimer, .-inittimer
+  88               		.data
+  89               	.LC0:
+  90 0000 0A34 6265 		.string	"\n4before"
+  90      666F 7265 
+  90      00
+  91               	.LC1:
+  92 0009 0A72 6573 		.string	"\nresume1"
+  92      756D 6531 
+  92      00
+  93               	.LC2:
+  94 0012 0A72 6573 		.string	"\nresume2"
+  94      756D 6532 
+  94      00
+  95               	.LC3:
+  96 001b 0A72 6573 		.string	"\nresume3"
+  96      756D 6533 
+  96      00
+  97               	.LC4:
+  98 0024 0A34 6166 		.string	"\n4after"
+  98      7465 7200 
+  99               		.text
+ 100               	.global	task4
+ 101               		.type	task4, @function
+ 102               	task4:
+ 103 005c CF93      		push r28
+ 104 005e DF93      		push r29
+ 105               	/* prologue: function */
+GAS LISTING /tmp/ccw3hFBc.s 			page 3
+
+
+ 106               	/* frame size = 0 */
+ 107 0060 E0E0      		ldi r30,lo8(.LC0)
+ 108 0062 F0E0      		ldi r31,hi8(.LC0)
+ 109 0064 C9E1      		ldi r28,lo8(25)
+ 110 0066 D0E0      		ldi r29,hi8(25)
+ 111               	.L48:
+ 112 0068 8081      		ld r24,Z
+ 113 006a 8823      		tst r24
+ 114 006c 01F0      		breq .+2
+ 115 006e 00C0      		rjmp .L25
+ 116               	.L49:
+ 117 0070 20E2      		ldi r18,lo8(20000)
+ 118 0072 3EE4      		ldi r19,hi8(20000)
+ 119               	.L26:
+ 120 0074 CE01      		movw r24,r28
+ 121               	/* #APP */
+ 122               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 123 0076 0197      		1: sbiw r24,1
+ 124 0078 01F4      		brne 1b
+ 125               	 ;  0 "" 2
+ 126               	/* #NOAPP */
+ 127 007a 2150      		subi r18,lo8(-(-1))
+ 128 007c 3040      		sbci r19,hi8(-(-1))
+ 129 007e 01F4      		brne .L26
+ 130 0080 E0E0      		ldi r30,lo8(.LC1)
+ 131 0082 F0E0      		ldi r31,hi8(.LC1)
+ 132 0084 8AE0      		ldi r24,lo8(10)
+ 133               	.L28:
+ 134 0086 8093 9C00 		sts 156,r24
+ 135               	.L27:
+ 136 008a 8091 9B00 		lds r24,155
+ 137 008e 85FF      		sbrs r24,5
+ 138 0090 00C0      		rjmp .L27
+ 139 0092 3196      		adiw r30,1
+ 140 0094 8081      		ld r24,Z
+ 141 0096 8823      		tst r24
+ 142 0098 01F4      		brne .L28
+ 143 009a 84E0      		ldi r24,lo8(4)
+ 144 009c 0E94 0000 		call OSTaskResume
+ 145 00a0 E0E0      		ldi r30,lo8(.LC2)
+ 146 00a2 F0E0      		ldi r31,hi8(.LC2)
+ 147 00a4 8AE0      		ldi r24,lo8(10)
+ 148               	.L30:
+ 149 00a6 8093 9C00 		sts 156,r24
+ 150               	.L29:
+ 151 00aa 8091 9B00 		lds r24,155
+ 152 00ae 85FF      		sbrs r24,5
+ 153 00b0 00C0      		rjmp .L29
+ 154 00b2 3196      		adiw r30,1
+ 155 00b4 8081      		ld r24,Z
+ 156 00b6 8823      		tst r24
+ 157 00b8 01F4      		brne .L30
+ 158 00ba 85E0      		ldi r24,lo8(5)
+ 159 00bc 0E94 0000 		call OSTaskResume
+ 160 00c0 E0E0      		ldi r30,lo8(.LC3)
+ 161 00c2 F0E0      		ldi r31,hi8(.LC3)
+ 162 00c4 8AE0      		ldi r24,lo8(10)
+GAS LISTING /tmp/ccw3hFBc.s 			page 4
+
+
+ 163               	.L32:
+ 164 00c6 8093 9C00 		sts 156,r24
+ 165               	.L31:
+ 166 00ca 8091 9B00 		lds r24,155
+ 167 00ce 85FF      		sbrs r24,5
+ 168 00d0 00C0      		rjmp .L31
+ 169 00d2 3196      		adiw r30,1
+ 170 00d4 8081      		ld r24,Z
+ 171 00d6 8823      		tst r24
+ 172 00d8 01F4      		brne .L32
+ 173 00da 86E0      		ldi r24,lo8(6)
+ 174 00dc 0E94 0000 		call OSTaskResume
+ 175 00e0 E0E0      		ldi r30,lo8(.LC4)
+ 176 00e2 F0E0      		ldi r31,hi8(.LC4)
+ 177 00e4 8AE0      		ldi r24,lo8(10)
+ 178               	.L34:
+ 179 00e6 8093 9C00 		sts 156,r24
+ 180               	.L33:
+ 181 00ea 8091 9B00 		lds r24,155
+ 182 00ee 85FF      		sbrs r24,5
+ 183 00f0 00C0      		rjmp .L33
+ 184 00f2 3196      		adiw r30,1
+ 185 00f4 8081      		ld r24,Z
+ 186 00f6 8823      		tst r24
+ 187 00f8 01F4      		brne .L34
+ 188 00fa 20E2      		ldi r18,lo8(20000)
+ 189 00fc 3EE4      		ldi r19,hi8(20000)
+ 190               	.L35:
+ 191 00fe CE01      		movw r24,r28
+ 192               	/* #APP */
+ 193               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 194 0100 0197      		1: sbiw r24,1
+ 195 0102 01F4      		brne 1b
+ 196               	 ;  0 "" 2
+ 197               	/* #NOAPP */
+ 198 0104 2150      		subi r18,lo8(-(-1))
+ 199 0106 3040      		sbci r19,hi8(-(-1))
+ 200 0108 01F4      		brne .L35
+ 201 010a E0E0      		ldi r30,lo8(.LC0)
+ 202 010c F0E0      		ldi r31,hi8(.LC0)
+ 203 010e 8081      		ld r24,Z
+ 204 0110 8823      		tst r24
+ 205 0112 01F4      		brne .+2
+ 206 0114 00C0      		rjmp .L49
+ 207               	.L25:
+ 208 0116 8093 9C00 		sts 156,r24
+ 209               	.L24:
+ 210 011a 8091 9B00 		lds r24,155
+ 211 011e 85FF      		sbrs r24,5
+ 212 0120 00C0      		rjmp .L24
+ 213 0122 3196      		adiw r30,1
+ 214 0124 00C0      		rjmp .L48
+ 215               		.size	task4, .-task4
+ 216               		.data
+ 217               	.LC5:
+ 218 002c 0A33 6265 		.string	"\n3before"
+ 218      666F 7265 
+GAS LISTING /tmp/ccw3hFBc.s 			page 5
+
+
+ 218      00
+ 219               	.LC6:
+ 220 0035 0A33 6166 		.string	"\n3after"
+ 220      7465 7200 
+ 221               		.text
+ 222               	.global	task3
+ 223               		.type	task3, @function
+ 224               	task3:
+ 225 0126 CF93      		push r28
+ 226 0128 DF93      		push r29
+ 227               	/* prologue: function */
+ 228               	/* frame size = 0 */
+ 229 012a E0E0      		ldi r30,lo8(.LC5)
+ 230 012c F0E0      		ldi r31,hi8(.LC5)
+ 231 012e C9E1      		ldi r28,lo8(25)
+ 232 0130 D0E0      		ldi r29,hi8(25)
+ 233               	.L64:
+ 234 0132 8081      		ld r24,Z
+ 235 0134 8823      		tst r24
+ 236 0136 01F4      		brne .L53
+ 237               	.L65:
+ 238 0138 20E2      		ldi r18,lo8(20000)
+ 239 013a 3EE4      		ldi r19,hi8(20000)
+ 240               	.L54:
+ 241 013c CE01      		movw r24,r28
+ 242               	/* #APP */
+ 243               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 244 013e 0197      		1: sbiw r24,1
+ 245 0140 01F4      		brne 1b
+ 246               	 ;  0 "" 2
+ 247               	/* #NOAPP */
+ 248 0142 2150      		subi r18,lo8(-(-1))
+ 249 0144 3040      		sbci r19,hi8(-(-1))
+ 250 0146 01F4      		brne .L54
+ 251 0148 86E0      		ldi r24,lo8(6)
+ 252 014a 0E94 0000 		call OSTaskSuspend
+ 253 014e E0E0      		ldi r30,lo8(.LC6)
+ 254 0150 F0E0      		ldi r31,hi8(.LC6)
+ 255 0152 8AE0      		ldi r24,lo8(10)
+ 256               	.L56:
+ 257 0154 8093 9C00 		sts 156,r24
+ 258               	.L55:
+ 259 0158 8091 9B00 		lds r24,155
+ 260 015c 85FF      		sbrs r24,5
+ 261 015e 00C0      		rjmp .L55
+ 262 0160 3196      		adiw r30,1
+ 263 0162 8081      		ld r24,Z
+ 264 0164 8823      		tst r24
+ 265 0166 01F4      		brne .L56
+ 266 0168 20E2      		ldi r18,lo8(20000)
+ 267 016a 3EE4      		ldi r19,hi8(20000)
+ 268               	.L57:
+ 269 016c CE01      		movw r24,r28
+ 270               	/* #APP */
+ 271               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 272 016e 0197      		1: sbiw r24,1
+ 273 0170 01F4      		brne 1b
+GAS LISTING /tmp/ccw3hFBc.s 			page 6
+
+
+ 274               	 ;  0 "" 2
+ 275               	/* #NOAPP */
+ 276 0172 2150      		subi r18,lo8(-(-1))
+ 277 0174 3040      		sbci r19,hi8(-(-1))
+ 278 0176 01F4      		brne .L57
+ 279 0178 E0E0      		ldi r30,lo8(.LC5)
+ 280 017a F0E0      		ldi r31,hi8(.LC5)
+ 281 017c 8081      		ld r24,Z
+ 282 017e 8823      		tst r24
+ 283 0180 01F0      		breq .L65
+ 284               	.L53:
+ 285 0182 8093 9C00 		sts 156,r24
+ 286               	.L52:
+ 287 0186 8091 9B00 		lds r24,155
+ 288 018a 85FF      		sbrs r24,5
+ 289 018c 00C0      		rjmp .L52
+ 290 018e 3196      		adiw r30,1
+ 291 0190 00C0      		rjmp .L64
+ 292               		.size	task3, .-task3
+ 293               		.data
+ 294               	.LC7:
+ 295 003d 0A32 6265 		.string	"\n2before"
+ 295      666F 7265 
+ 295      00
+ 296               	.LC8:
+ 297 0046 0A32 6166 		.string	"\n2after"
+ 297      7465 7200 
+ 298               		.text
+ 299               	.global	task2
+ 300               		.type	task2, @function
+ 301               	task2:
+ 302 0192 CF93      		push r28
+ 303 0194 DF93      		push r29
+ 304               	/* prologue: function */
+ 305               	/* frame size = 0 */
+ 306 0196 E0E0      		ldi r30,lo8(.LC7)
+ 307 0198 F0E0      		ldi r31,hi8(.LC7)
+ 308 019a C9E1      		ldi r28,lo8(25)
+ 309 019c D0E0      		ldi r29,hi8(25)
+ 310               	.L80:
+ 311 019e 8081      		ld r24,Z
+ 312 01a0 8823      		tst r24
+ 313 01a2 01F4      		brne .L69
+ 314               	.L81:
+ 315 01a4 20E2      		ldi r18,lo8(20000)
+ 316 01a6 3EE4      		ldi r19,hi8(20000)
+ 317               	.L70:
+ 318 01a8 CE01      		movw r24,r28
+ 319               	/* #APP */
+ 320               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 321 01aa 0197      		1: sbiw r24,1
+ 322 01ac 01F4      		brne 1b
+ 323               	 ;  0 "" 2
+ 324               	/* #NOAPP */
+ 325 01ae 2150      		subi r18,lo8(-(-1))
+ 326 01b0 3040      		sbci r19,hi8(-(-1))
+ 327 01b2 01F4      		brne .L70
+GAS LISTING /tmp/ccw3hFBc.s 			page 7
+
+
+ 328 01b4 85E0      		ldi r24,lo8(5)
+ 329 01b6 0E94 0000 		call OSTaskSuspend
+ 330 01ba E0E0      		ldi r30,lo8(.LC8)
+ 331 01bc F0E0      		ldi r31,hi8(.LC8)
+ 332 01be 8AE0      		ldi r24,lo8(10)
+ 333               	.L72:
+ 334 01c0 8093 9C00 		sts 156,r24
+ 335               	.L71:
+ 336 01c4 8091 9B00 		lds r24,155
+ 337 01c8 85FF      		sbrs r24,5
+ 338 01ca 00C0      		rjmp .L71
+ 339 01cc 3196      		adiw r30,1
+ 340 01ce 8081      		ld r24,Z
+ 341 01d0 8823      		tst r24
+ 342 01d2 01F4      		brne .L72
+ 343 01d4 20E2      		ldi r18,lo8(20000)
+ 344 01d6 3EE4      		ldi r19,hi8(20000)
+ 345               	.L73:
+ 346 01d8 CE01      		movw r24,r28
+ 347               	/* #APP */
+ 348               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 349 01da 0197      		1: sbiw r24,1
+ 350 01dc 01F4      		brne 1b
+ 351               	 ;  0 "" 2
+ 352               	/* #NOAPP */
+ 353 01de 2150      		subi r18,lo8(-(-1))
+ 354 01e0 3040      		sbci r19,hi8(-(-1))
+ 355 01e2 01F4      		brne .L73
+ 356 01e4 E0E0      		ldi r30,lo8(.LC7)
+ 357 01e6 F0E0      		ldi r31,hi8(.LC7)
+ 358 01e8 8081      		ld r24,Z
+ 359 01ea 8823      		tst r24
+ 360 01ec 01F0      		breq .L81
+ 361               	.L69:
+ 362 01ee 8093 9C00 		sts 156,r24
+ 363               	.L68:
+ 364 01f2 8091 9B00 		lds r24,155
+ 365 01f6 85FF      		sbrs r24,5
+ 366 01f8 00C0      		rjmp .L68
+ 367 01fa 3196      		adiw r30,1
+ 368 01fc 00C0      		rjmp .L80
+ 369               		.size	task2, .-task2
+ 370               		.data
+ 371               	.LC9:
+ 372 004e 0A31 6265 		.string	"\n1before"
+ 372      666F 7265 
+ 372      00
+ 373               	.LC10:
+ 374 0057 0A31 6166 		.string	"\n1after"
+ 374      7465 7200 
+ 375               		.text
+ 376               	.global	task1
+ 377               		.type	task1, @function
+ 378               	task1:
+ 379 01fe CF93      		push r28
+ 380 0200 DF93      		push r29
+ 381               	/* prologue: function */
+GAS LISTING /tmp/ccw3hFBc.s 			page 8
+
+
+ 382               	/* frame size = 0 */
+ 383 0202 12BE      		out 82-32,__zero_reg__
+ 384 0204 87E0      		ldi r24,lo8(7)
+ 385 0206 83BF      		out 83-32,r24
+ 386 0208 81E0      		ldi r24,lo8(1)
+ 387 020a 87BF      		out 87-32,r24
+ 388 020c E0E0      		ldi r30,lo8(.LC9)
+ 389 020e F0E0      		ldi r31,hi8(.LC9)
+ 390 0210 C9E1      		ldi r28,lo8(25)
+ 391 0212 D0E0      		ldi r29,hi8(25)
+ 392               	.L96:
+ 393 0214 8081      		ld r24,Z
+ 394 0216 8823      		tst r24
+ 395 0218 01F4      		brne .L85
+ 396               	.L97:
+ 397 021a 20E2      		ldi r18,lo8(20000)
+ 398 021c 3EE4      		ldi r19,hi8(20000)
+ 399               	.L86:
+ 400 021e CE01      		movw r24,r28
+ 401               	/* #APP */
+ 402               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 403 0220 0197      		1: sbiw r24,1
+ 404 0222 01F4      		brne 1b
+ 405               	 ;  0 "" 2
+ 406               	/* #NOAPP */
+ 407 0224 2150      		subi r18,lo8(-(-1))
+ 408 0226 3040      		sbci r19,hi8(-(-1))
+ 409 0228 01F4      		brne .L86
+ 410 022a 84E0      		ldi r24,lo8(4)
+ 411 022c 0E94 0000 		call OSTaskSuspend
+ 412 0230 E0E0      		ldi r30,lo8(.LC10)
+ 413 0232 F0E0      		ldi r31,hi8(.LC10)
+ 414 0234 8AE0      		ldi r24,lo8(10)
+ 415               	.L88:
+ 416 0236 8093 9C00 		sts 156,r24
+ 417               	.L87:
+ 418 023a 8091 9B00 		lds r24,155
+ 419 023e 85FF      		sbrs r24,5
+ 420 0240 00C0      		rjmp .L87
+ 421 0242 3196      		adiw r30,1
+ 422 0244 8081      		ld r24,Z
+ 423 0246 8823      		tst r24
+ 424 0248 01F4      		brne .L88
+ 425 024a 20E2      		ldi r18,lo8(20000)
+ 426 024c 3EE4      		ldi r19,hi8(20000)
+ 427               	.L89:
+ 428 024e CE01      		movw r24,r28
+ 429               	/* #APP */
+ 430               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 431 0250 0197      		1: sbiw r24,1
+ 432 0252 01F4      		brne 1b
+ 433               	 ;  0 "" 2
+ 434               	/* #NOAPP */
+ 435 0254 2150      		subi r18,lo8(-(-1))
+ 436 0256 3040      		sbci r19,hi8(-(-1))
+ 437 0258 01F4      		brne .L89
+ 438 025a E0E0      		ldi r30,lo8(.LC9)
+GAS LISTING /tmp/ccw3hFBc.s 			page 9
+
+
+ 439 025c F0E0      		ldi r31,hi8(.LC9)
+ 440 025e 8081      		ld r24,Z
+ 441 0260 8823      		tst r24
+ 442 0262 01F0      		breq .L97
+ 443               	.L85:
+ 444 0264 8093 9C00 		sts 156,r24
+ 445               	.L84:
+ 446 0268 8091 9B00 		lds r24,155
+ 447 026c 85FF      		sbrs r24,5
+ 448 026e 00C0      		rjmp .L84
+ 449 0270 3196      		adiw r30,1
+ 450 0272 00C0      		rjmp .L96
+ 451               		.size	task1, .-task1
+ 452               	.global	main
+ 453               		.type	main, @function
+ 454               	main:
+ 455               	/* prologue: function */
+ 456               	/* frame size = 0 */
+ 457 0274 0E94 0000 		call OSInit
+ 458 0278 80E0      		ldi r24,lo8(gs(task1))
+ 459 027a 90E0      		ldi r25,hi8(gs(task1))
+ 460 027c 60E0      		ldi r22,lo8(0)
+ 461 027e 70E0      		ldi r23,hi8(0)
+ 462 0280 40E0      		ldi r20,lo8(task1_stack+255)
+ 463 0282 50E0      		ldi r21,hi8(task1_stack+255)
+ 464 0284 24E0      		ldi r18,lo8(4)
+ 465 0286 0E94 0000 		call OSTaskCreate
+ 466 028a 80E0      		ldi r24,lo8(gs(task2))
+ 467 028c 90E0      		ldi r25,hi8(gs(task2))
+ 468 028e 60E0      		ldi r22,lo8(0)
+ 469 0290 70E0      		ldi r23,hi8(0)
+ 470 0292 40E0      		ldi r20,lo8(task2_stack+255)
+ 471 0294 50E0      		ldi r21,hi8(task2_stack+255)
+ 472 0296 25E0      		ldi r18,lo8(5)
+ 473 0298 0E94 0000 		call OSTaskCreate
+ 474 029c 80E0      		ldi r24,lo8(gs(task3))
+ 475 029e 90E0      		ldi r25,hi8(gs(task3))
+ 476 02a0 60E0      		ldi r22,lo8(0)
+ 477 02a2 70E0      		ldi r23,hi8(0)
+ 478 02a4 40E0      		ldi r20,lo8(task3_stack+255)
+ 479 02a6 50E0      		ldi r21,hi8(task3_stack+255)
+ 480 02a8 26E0      		ldi r18,lo8(6)
+ 481 02aa 0E94 0000 		call OSTaskCreate
+ 482 02ae 80E0      		ldi r24,lo8(gs(task4))
+ 483 02b0 90E0      		ldi r25,hi8(gs(task4))
+ 484 02b2 60E0      		ldi r22,lo8(0)
+ 485 02b4 70E0      		ldi r23,hi8(0)
+ 486 02b6 40E0      		ldi r20,lo8(task4_stack+255)
+ 487 02b8 50E0      		ldi r21,hi8(task4_stack+255)
+ 488 02ba 27E0      		ldi r18,lo8(7)
+ 489 02bc 0E94 0000 		call OSTaskCreate
+ 490 02c0 1092 9800 		sts 152,__zero_reg__
+ 491 02c4 87E6      		ldi r24,lo8(103)
+ 492 02c6 8093 9900 		sts 153,r24
+ 493 02ca EAE9      		ldi r30,lo8(154)
+ 494 02cc F0E0      		ldi r31,hi8(154)
+ 495 02ce 8081      		ld r24,Z
+GAS LISTING /tmp/ccw3hFBc.s 			page 10
+
+
+ 496 02d0 8861      		ori r24,lo8(24)
+ 497 02d2 8083      		st Z,r24
+ 498 02d4 0E94 0000 		call OSStart
+ 499               	/* epilogue start */
+ 500 02d8 0895      		ret
+ 501               		.size	main, .-main
+ 502               		.data
+ 503               	.LC11:
+ 504 005f 2564 00   		.string	"%d"
+ 505               		.text
+ 506               	.global	u1txnum
+ 507               		.type	u1txnum, @function
+ 508               	u1txnum:
+ 509 02da CF93      		push r28
+ 510 02dc DF93      		push r29
+ 511               	/* prologue: function */
+ 512               	/* frame size = 0 */
+ 513 02de 00D0      		rcall .
+ 514 02e0 00D0      		rcall .
+ 515 02e2 00D0      		rcall .
+ 516 02e4 EDB7      		in r30,__SP_L__
+ 517 02e6 FEB7      		in r31,__SP_H__
+ 518 02e8 3196      		adiw r30,1
+ 519 02ea C0E0      		ldi r28,lo8(buffer)
+ 520 02ec D0E0      		ldi r29,hi8(buffer)
+ 521 02ee ADB7      		in r26,__SP_L__
+ 522 02f0 BEB7      		in r27,__SP_H__
+ 523 02f2 1296      		adiw r26,1+1
+ 524 02f4 DC93      		st X,r29
+ 525 02f6 CE93      		st -X,r28
+ 526 02f8 1197      		sbiw r26,1
+ 527 02fa 20E0      		ldi r18,lo8(.LC11)
+ 528 02fc 30E0      		ldi r19,hi8(.LC11)
+ 529 02fe 3383      		std Z+3,r19
+ 530 0300 2283      		std Z+2,r18
+ 531 0302 9583      		std Z+5,r25
+ 532 0304 8483      		std Z+4,r24
+ 533 0306 0E94 0000 		call sprintf
+ 534 030a 8091 0000 		lds r24,buffer
+ 535 030e 2DB7      		in r18,__SP_L__
+ 536 0310 3EB7      		in r19,__SP_H__
+ 537 0312 2A5F      		subi r18,lo8(-(6))
+ 538 0314 3F4F      		sbci r19,hi8(-(6))
+ 539 0316 0FB6      		in __tmp_reg__,__SREG__
+ 540 0318 F894      		cli
+ 541 031a 3EBF      		out __SP_H__,r19
+ 542 031c 0FBE      		out __SREG__,__tmp_reg__
+ 543 031e 2DBF      		out __SP_L__,r18
+ 544 0320 8823      		tst r24
+ 545 0322 01F0      		breq .L104
+ 546 0324 FE01      		movw r30,r28
+ 547               	.L103:
+ 548 0326 8093 9C00 		sts 156,r24
+ 549               	.L102:
+ 550 032a 8091 9B00 		lds r24,155
+ 551 032e 85FF      		sbrs r24,5
+ 552 0330 00C0      		rjmp .L102
+GAS LISTING /tmp/ccw3hFBc.s 			page 11
+
+
+ 553 0332 3196      		adiw r30,1
+ 554 0334 8081      		ld r24,Z
+ 555 0336 8823      		tst r24
+ 556 0338 01F4      		brne .L103
+ 557               	.L104:
+ 558               	/* epilogue start */
+ 559 033a DF91      		pop r29
+ 560 033c CF91      		pop r28
+ 561 033e 0895      		ret
+ 562               		.size	u1txnum, .-u1txnum
+ 563               		.comm buffer,20,1
+ 564               		.comm task1_stack,256,1
+ 565               		.comm task2_stack,256,1
+ 566               		.comm task3_stack,256,1
+ 567               		.comm task4_stack,256,1
+GAS LISTING /tmp/ccw3hFBc.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 rtos3.c
+     /tmp/ccw3hFBc.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccw3hFBc.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccw3hFBc.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccw3hFBc.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccw3hFBc.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccw3hFBc.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccw3hFBc.s:13     .text:00000000 u1init
+     /tmp/ccw3hFBc.s:29     .text:00000016 u1tx
+     /tmp/ccw3hFBc.s:42     .text:00000024 u1rx
+     /tmp/ccw3hFBc.s:55     .text:00000032 u1txstr
+     /tmp/ccw3hFBc.s:77     .text:00000050 inittimer
+     /tmp/ccw3hFBc.s:102    .text:0000005c task4
+     /tmp/ccw3hFBc.s:224    .text:00000126 task3
+     /tmp/ccw3hFBc.s:301    .text:00000192 task2
+     /tmp/ccw3hFBc.s:378    .text:000001fe task1
+     /tmp/ccw3hFBc.s:454    .text:00000274 main
+                            *COM*:00000100 task1_stack
+                            *COM*:00000100 task2_stack
+                            *COM*:00000100 task3_stack
+                            *COM*:00000100 task4_stack
+     /tmp/ccw3hFBc.s:508    .text:000002da u1txnum
+                            *COM*:00000014 buffer
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+OSTaskResume
+OSTaskSuspend
+OSInit
+OSTaskCreate
+OSStart
+sprintf

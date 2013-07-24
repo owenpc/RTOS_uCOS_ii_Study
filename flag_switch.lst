@@ -1,0 +1,743 @@
+GAS LISTING /tmp/cctgokNP.s 			page 1
+
+
+   1               		.file	"flag_switch.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	u1init
+  12               		.type	u1init, @function
+  13               	u1init:
+  14               	/* prologue: function */
+  15               	/* frame size = 0 */
+  16 0000 1092 9800 		sts 152,__zero_reg__
+  17 0004 87E6      		ldi r24,lo8(103)
+  18 0006 8093 9900 		sts 153,r24
+  19 000a EAE9      		ldi r30,lo8(154)
+  20 000c F0E0      		ldi r31,hi8(154)
+  21 000e 8081      		ld r24,Z
+  22 0010 8861      		ori r24,lo8(24)
+  23 0012 8083      		st Z,r24
+  24               	/* epilogue start */
+  25 0014 0895      		ret
+  26               		.size	u1init, .-u1init
+  27               	.global	u1tx
+  28               		.type	u1tx, @function
+  29               	u1tx:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 0016 8093 9C00 		sts 156,r24
+  33               	.L4:
+  34 001a 8091 9B00 		lds r24,155
+  35 001e 85FF      		sbrs r24,5
+  36 0020 00C0      		rjmp .L4
+  37               	/* epilogue start */
+  38 0022 0895      		ret
+  39               		.size	u1tx, .-u1tx
+  40               	.global	u1rx
+  41               		.type	u1rx, @function
+  42               	u1rx:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	.L9:
+  46 0024 8091 9B00 		lds r24,155
+  47 0028 87FF      		sbrs r24,7
+  48 002a 00C0      		rjmp .L9
+  49 002c 8091 9C00 		lds r24,156
+  50               	/* epilogue start */
+  51 0030 0895      		ret
+  52               		.size	u1rx, .-u1rx
+  53               	.global	u1txstr
+  54               		.type	u1txstr, @function
+  55               	u1txstr:
+  56               	/* prologue: function */
+  57               	/* frame size = 0 */
+GAS LISTING /tmp/cctgokNP.s 			page 2
+
+
+  58 0032 FC01      		movw r30,r24
+  59 0034 8081      		ld r24,Z
+  60 0036 8823      		tst r24
+  61 0038 01F0      		breq .L16
+  62               	.L17:
+  63 003a 8093 9C00 		sts 156,r24
+  64               	.L14:
+  65 003e 8091 9B00 		lds r24,155
+  66 0042 85FF      		sbrs r24,5
+  67 0044 00C0      		rjmp .L14
+  68 0046 3196      		adiw r30,1
+  69 0048 8081      		ld r24,Z
+  70 004a 8823      		tst r24
+  71 004c 01F4      		brne .L17
+  72               	.L16:
+  73 004e 0895      		ret
+  74               		.size	u1txstr, .-u1txstr
+  75               	.global	inittimer
+  76               		.type	inittimer, @function
+  77               	inittimer:
+  78               	/* prologue: function */
+  79               	/* frame size = 0 */
+  80 0050 12BE      		out 82-32,__zero_reg__
+  81 0052 87E0      		ldi r24,lo8(7)
+  82 0054 83BF      		out 83-32,r24
+  83 0056 81E0      		ldi r24,lo8(1)
+  84 0058 87BF      		out 87-32,r24
+  85               	/* epilogue start */
+  86 005a 0895      		ret
+  87               		.size	inittimer, .-inittimer
+  88               		.data
+  89               	.LC0:
+  90 0000 2564 00   		.string	"%d"
+  91               		.text
+  92               	.global	u1txnum
+  93               		.type	u1txnum, @function
+  94               	u1txnum:
+  95 005c CF93      		push r28
+  96 005e DF93      		push r29
+  97               	/* prologue: function */
+  98               	/* frame size = 0 */
+  99 0060 00D0      		rcall .
+ 100 0062 00D0      		rcall .
+ 101 0064 00D0      		rcall .
+ 102 0066 EDB7      		in r30,__SP_L__
+ 103 0068 FEB7      		in r31,__SP_H__
+ 104 006a 3196      		adiw r30,1
+ 105 006c C0E0      		ldi r28,lo8(buffer)
+ 106 006e D0E0      		ldi r29,hi8(buffer)
+ 107 0070 ADB7      		in r26,__SP_L__
+ 108 0072 BEB7      		in r27,__SP_H__
+ 109 0074 1296      		adiw r26,1+1
+ 110 0076 DC93      		st X,r29
+ 111 0078 CE93      		st -X,r28
+ 112 007a 1197      		sbiw r26,1
+ 113 007c 20E0      		ldi r18,lo8(.LC0)
+ 114 007e 30E0      		ldi r19,hi8(.LC0)
+GAS LISTING /tmp/cctgokNP.s 			page 3
+
+
+ 115 0080 3383      		std Z+3,r19
+ 116 0082 2283      		std Z+2,r18
+ 117 0084 9583      		std Z+5,r25
+ 118 0086 8483      		std Z+4,r24
+ 119 0088 0E94 0000 		call sprintf
+ 120 008c 8091 0000 		lds r24,buffer
+ 121 0090 2DB7      		in r18,__SP_L__
+ 122 0092 3EB7      		in r19,__SP_H__
+ 123 0094 2A5F      		subi r18,lo8(-(6))
+ 124 0096 3F4F      		sbci r19,hi8(-(6))
+ 125 0098 0FB6      		in __tmp_reg__,__SREG__
+ 126 009a F894      		cli
+ 127 009c 3EBF      		out __SP_H__,r19
+ 128 009e 0FBE      		out __SREG__,__tmp_reg__
+ 129 00a0 2DBF      		out __SP_L__,r18
+ 130 00a2 8823      		tst r24
+ 131 00a4 01F0      		breq .L26
+ 132 00a6 FE01      		movw r30,r28
+ 133               	.L25:
+ 134 00a8 8093 9C00 		sts 156,r24
+ 135               	.L24:
+ 136 00ac 8091 9B00 		lds r24,155
+ 137 00b0 85FF      		sbrs r24,5
+ 138 00b2 00C0      		rjmp .L24
+ 139 00b4 3196      		adiw r30,1
+ 140 00b6 8081      		ld r24,Z
+ 141 00b8 8823      		tst r24
+ 142 00ba 01F4      		brne .L25
+ 143               	.L26:
+ 144               	/* epilogue start */
+ 145 00bc DF91      		pop r29
+ 146 00be CF91      		pop r28
+ 147 00c0 0895      		ret
+ 148               		.size	u1txnum, .-u1txnum
+ 149               		.data
+ 150               	.LC1:
+ 151 0003 0A43 6F72 		.string	"\nCorrect flag condition\t"
+ 151      7265 6374 
+ 151      2066 6C61 
+ 151      6720 636F 
+ 151      6E64 6974 
+ 152               	.LC2:
+ 153 001c 466C 6167 		.string	"Flags = %p\n"
+ 153      7320 3D20 
+ 153      2570 0A00 
+ 154               	.LC3:
+ 155 0028 0A49 6E63 		.string	"\nIncorrect flag condition\t"
+ 155      6F72 7265 
+ 155      6374 2066 
+ 155      6C61 6720 
+ 155      636F 6E64 
+ 156               		.text
+ 157               	.global	task3
+ 158               		.type	task3, @function
+ 159               	task3:
+ 160 00c2 9F92      		push r9
+ 161 00c4 AF92      		push r10
+GAS LISTING /tmp/cctgokNP.s 			page 4
+
+
+ 162 00c6 BF92      		push r11
+ 163 00c8 CF92      		push r12
+ 164 00ca DF92      		push r13
+ 165 00cc EF92      		push r14
+ 166 00ce FF92      		push r15
+ 167 00d0 0F93      		push r16
+ 168 00d2 1F93      		push r17
+ 169 00d4 DF93      		push r29
+ 170 00d6 CF93      		push r28
+ 171 00d8 CDB7      		in r28,__SP_L__
+ 172 00da DEB7      		in r29,__SP_H__
+ 173 00dc 6F97      		sbiw r28,31
+ 174 00de 0FB6      		in __tmp_reg__,__SREG__
+ 175 00e0 F894      		cli
+ 176 00e2 DEBF      		out __SP_H__,r29
+ 177 00e4 0FBE      		out __SREG__,__tmp_reg__
+ 178 00e6 CDBF      		out __SP_L__,r28
+ 179               	/* prologue: function */
+ 180               	/* frame size = 31 */
+ 181 00e8 6E01      		movw r12,r28
+ 182 00ea 0894      		sec
+ 183 00ec C11C      		adc r12,__zero_reg__
+ 184 00ee D11C      		adc r13,__zero_reg__
+ 185 00f0 22E0      		ldi r18,lo8(2)
+ 186 00f2 E22E      		mov r14,r18
+ 187 00f4 F12C      		mov r15,__zero_reg__
+ 188 00f6 EC0E      		add r14,r28
+ 189 00f8 FD1E      		adc r15,r29
+ 190 00fa 90E0      		ldi r25,lo8(.LC2)
+ 191 00fc A92E      		mov r10,r25
+ 192 00fe 90E0      		ldi r25,hi8(.LC2)
+ 193 0100 B92E      		mov r11,r25
+ 194 0102 8BEF      		ldi r24,lo8(-5)
+ 195 0104 982E      		mov r9,r24
+ 196               	.L40:
+ 197 0106 95BA      		out 53-32,r9
+ 198 0108 8091 0000 		lds r24,myflag
+ 199 010c 9091 0000 		lds r25,(myflag)+1
+ 200 0110 68E1      		ldi r22,lo8(24)
+ 201 0112 42E0      		ldi r20,lo8(2)
+ 202 0114 2DE3      		ldi r18,lo8(61)
+ 203 0116 30E0      		ldi r19,hi8(61)
+ 204 0118 8601      		movw r16,r12
+ 205 011a 0E94 0000 		call OSFlagPend
+ 206 011e 982F      		mov r25,r24
+ 207 0120 8981      		ldd r24,Y+1
+ 208 0122 8823      		tst r24
+ 209 0124 01F4      		brne .L30
+ 210 0126 E0E0      		ldi r30,lo8(.LC1)
+ 211 0128 F0E0      		ldi r31,hi8(.LC1)
+ 212 012a 8AE0      		ldi r24,lo8(10)
+ 213               	.L32:
+ 214 012c 8093 9C00 		sts 156,r24
+ 215               	.L31:
+ 216 0130 8091 9B00 		lds r24,155
+ 217 0134 85FF      		sbrs r24,5
+ 218 0136 00C0      		rjmp .L31
+GAS LISTING /tmp/cctgokNP.s 			page 5
+
+
+ 219 0138 3196      		adiw r30,1
+ 220 013a 8081      		ld r24,Z
+ 221 013c 8823      		tst r24
+ 222 013e 01F4      		brne .L32
+ 223 0140 00D0      		rcall .
+ 224 0142 00D0      		rcall .
+ 225 0144 00D0      		rcall .
+ 226 0146 EDB7      		in r30,__SP_L__
+ 227 0148 FEB7      		in r31,__SP_H__
+ 228 014a 3196      		adiw r30,1
+ 229 014c ADB7      		in r26,__SP_L__
+ 230 014e BEB7      		in r27,__SP_H__
+ 231 0150 1296      		adiw r26,1+1
+ 232 0152 FC92      		st X,r15
+ 233 0154 EE92      		st -X,r14
+ 234 0156 1197      		sbiw r26,1
+ 235 0158 B382      		std Z+3,r11
+ 236 015a A282      		std Z+2,r10
+ 237 015c 9483      		std Z+4,r25
+ 238 015e 1582      		std Z+5,__zero_reg__
+ 239 0160 0E94 0000 		call sprintf
+ 240 0164 8A81      		ldd r24,Y+2
+ 241 0166 2DB7      		in r18,__SP_L__
+ 242 0168 3EB7      		in r19,__SP_H__
+ 243 016a 2A5F      		subi r18,lo8(-(6))
+ 244 016c 3F4F      		sbci r19,hi8(-(6))
+ 245 016e 0FB6      		in __tmp_reg__,__SREG__
+ 246 0170 F894      		cli
+ 247 0172 3EBF      		out __SP_H__,r19
+ 248 0174 0FBE      		out __SREG__,__tmp_reg__
+ 249 0176 2DBF      		out __SP_L__,r18
+ 250 0178 8823      		tst r24
+ 251 017a 01F0      		breq .L33
+ 252 017c F701      		movw r30,r14
+ 253               	.L35:
+ 254 017e 8093 9C00 		sts 156,r24
+ 255               	.L34:
+ 256 0182 8091 9B00 		lds r24,155
+ 257 0186 85FF      		sbrs r24,5
+ 258 0188 00C0      		rjmp .L34
+ 259 018a 3196      		adiw r30,1
+ 260 018c 8081      		ld r24,Z
+ 261 018e 8823      		tst r24
+ 262 0190 01F4      		brne .L35
+ 263               	.L33:
+ 264 0192 8EE1      		ldi r24,lo8(30)
+ 265 0194 90E0      		ldi r25,hi8(30)
+ 266 0196 0E94 0000 		call OSTimeDly
+ 267 019a 00C0      		rjmp .L40
+ 268               	.L30:
+ 269 019c E0E0      		ldi r30,lo8(.LC3)
+ 270 019e F0E0      		ldi r31,hi8(.LC3)
+ 271 01a0 8AE0      		ldi r24,lo8(10)
+ 272               	.L37:
+ 273 01a2 8093 9C00 		sts 156,r24
+ 274               	.L36:
+ 275 01a6 8091 9B00 		lds r24,155
+GAS LISTING /tmp/cctgokNP.s 			page 6
+
+
+ 276 01aa 85FF      		sbrs r24,5
+ 277 01ac 00C0      		rjmp .L36
+ 278 01ae 3196      		adiw r30,1
+ 279 01b0 8081      		ld r24,Z
+ 280 01b2 8823      		tst r24
+ 281 01b4 01F4      		brne .L37
+ 282 01b6 00D0      		rcall .
+ 283 01b8 00D0      		rcall .
+ 284 01ba 00D0      		rcall .
+ 285 01bc EDB7      		in r30,__SP_L__
+ 286 01be FEB7      		in r31,__SP_H__
+ 287 01c0 3196      		adiw r30,1
+ 288 01c2 ADB7      		in r26,__SP_L__
+ 289 01c4 BEB7      		in r27,__SP_H__
+ 290 01c6 1296      		adiw r26,1+1
+ 291 01c8 FC92      		st X,r15
+ 292 01ca EE92      		st -X,r14
+ 293 01cc 1197      		sbiw r26,1
+ 294 01ce B382      		std Z+3,r11
+ 295 01d0 A282      		std Z+2,r10
+ 296 01d2 9483      		std Z+4,r25
+ 297 01d4 1582      		std Z+5,__zero_reg__
+ 298 01d6 0E94 0000 		call sprintf
+ 299 01da 8A81      		ldd r24,Y+2
+ 300 01dc 2DB7      		in r18,__SP_L__
+ 301 01de 3EB7      		in r19,__SP_H__
+ 302 01e0 2A5F      		subi r18,lo8(-(6))
+ 303 01e2 3F4F      		sbci r19,hi8(-(6))
+ 304 01e4 0FB6      		in __tmp_reg__,__SREG__
+ 305 01e6 F894      		cli
+ 306 01e8 3EBF      		out __SP_H__,r19
+ 307 01ea 0FBE      		out __SREG__,__tmp_reg__
+ 308 01ec 2DBF      		out __SP_L__,r18
+ 309 01ee 8823      		tst r24
+ 310 01f0 01F0      		breq .L33
+ 311 01f2 F701      		movw r30,r14
+ 312               	.L39:
+ 313 01f4 8093 9C00 		sts 156,r24
+ 314               	.L38:
+ 315 01f8 8091 9B00 		lds r24,155
+ 316 01fc 85FF      		sbrs r24,5
+ 317 01fe 00C0      		rjmp .L38
+ 318 0200 3196      		adiw r30,1
+ 319 0202 8081      		ld r24,Z
+ 320 0204 8823      		tst r24
+ 321 0206 01F4      		brne .L39
+ 322 0208 8EE1      		ldi r24,lo8(30)
+ 323 020a 90E0      		ldi r25,hi8(30)
+ 324 020c 0E94 0000 		call OSTimeDly
+ 325 0210 00C0      		rjmp .L40
+ 326               		.size	task3, .-task3
+ 327               		.data
+ 328               	.LC4:
+ 329 0043 0A53 7769 		.string	"\nSwitch 2 pressed\n"
+ 329      7463 6820 
+ 329      3220 7072 
+ 329      6573 7365 
+GAS LISTING /tmp/cctgokNP.s 			page 7
+
+
+ 329      640A 00
+ 330               	.LC5:
+ 331 0056 0A46 6C61 		.string	"\nFlag set in task 2\n"
+ 331      6720 7365 
+ 331      7420 696E 
+ 331      2074 6173 
+ 331      6B20 320A 
+ 332               	.LC6:
+ 333 006b 0A53 7769 		.string	"\nSwitch 2 not pressed\n"
+ 333      7463 6820 
+ 333      3220 6E6F 
+ 333      7420 7072 
+ 333      6573 7365 
+ 334               	.LC7:
+ 335 0082 0A46 6C61 		.string	"\nFlag cleared in task 2\n"
+ 335      6720 636C 
+ 335      6561 7265 
+ 335      6420 696E 
+ 335      2074 6173 
+ 336               		.text
+ 337               	.global	task2
+ 338               		.type	task2, @function
+ 339               	task2:
+ 340 0212 FF92      		push r15
+ 341 0214 0F93      		push r16
+ 342 0216 1F93      		push r17
+ 343 0218 DF93      		push r29
+ 344 021a CF93      		push r28
+ 345 021c 0F92      		push __tmp_reg__
+ 346 021e CDB7      		in r28,__SP_L__
+ 347 0220 DEB7      		in r29,__SP_H__
+ 348               	/* prologue: function */
+ 349               	/* frame size = 1 */
+ 350 0222 12BE      		out 82-32,__zero_reg__
+ 351 0224 87E0      		ldi r24,lo8(7)
+ 352 0226 83BF      		out 83-32,r24
+ 353 0228 81E0      		ldi r24,lo8(1)
+ 354 022a 87BF      		out 87-32,r24
+ 355 022c 8E01      		movw r16,r28
+ 356 022e 0F5F      		subi r16,lo8(-(1))
+ 357 0230 1F4F      		sbci r17,hi8(-(1))
+ 358 0232 3DEF      		ldi r19,lo8(-3)
+ 359 0234 F32E      		mov r15,r19
+ 360 0236 F5BA      		out 53-32,r15
+ 361 0238 8799      		sbic 48-32,7
+ 362 023a 00C0      		rjmp .L51
+ 363               	.L71:
+ 364 023c E0E0      		ldi r30,lo8(.LC4)
+ 365 023e F0E0      		ldi r31,hi8(.LC4)
+ 366 0240 8AE0      		ldi r24,lo8(10)
+ 367               	.L53:
+ 368 0242 8093 9C00 		sts 156,r24
+ 369               	.L52:
+ 370 0246 8091 9B00 		lds r24,155
+ 371 024a 85FF      		sbrs r24,5
+ 372 024c 00C0      		rjmp .L52
+ 373 024e 3196      		adiw r30,1
+GAS LISTING /tmp/cctgokNP.s 			page 8
+
+
+ 374 0250 8081      		ld r24,Z
+ 375 0252 8823      		tst r24
+ 376 0254 01F4      		brne .L53
+ 377 0256 8091 0000 		lds r24,myflag
+ 378 025a 9091 0000 		lds r25,(myflag)+1
+ 379 025e 60E1      		ldi r22,lo8(16)
+ 380 0260 41E0      		ldi r20,lo8(1)
+ 381 0262 9801      		movw r18,r16
+ 382 0264 0E94 0000 		call OSFlagPost
+ 383 0268 8981      		ldd r24,Y+1
+ 384 026a 8823      		tst r24
+ 385 026c 01F4      		brne .L54
+ 386 026e E0E0      		ldi r30,lo8(.LC5)
+ 387 0270 F0E0      		ldi r31,hi8(.LC5)
+ 388 0272 8AE0      		ldi r24,lo8(10)
+ 389               	.L56:
+ 390 0274 8093 9C00 		sts 156,r24
+ 391               	.L55:
+ 392 0278 8091 9B00 		lds r24,155
+ 393 027c 85FF      		sbrs r24,5
+ 394 027e 00C0      		rjmp .L55
+ 395 0280 3196      		adiw r30,1
+ 396 0282 8081      		ld r24,Z
+ 397 0284 8823      		tst r24
+ 398 0286 01F4      		brne .L56
+ 399               	.L54:
+ 400 0288 8AE7      		ldi r24,lo8(122)
+ 401 028a 90E0      		ldi r25,hi8(122)
+ 402 028c 0E94 0000 		call OSTimeDly
+ 403               	.L72:
+ 404 0290 F5BA      		out 53-32,r15
+ 405 0292 879B      		sbis 48-32,7
+ 406 0294 00C0      		rjmp .L71
+ 407               	.L51:
+ 408 0296 E0E0      		ldi r30,lo8(.LC6)
+ 409 0298 F0E0      		ldi r31,hi8(.LC6)
+ 410 029a 8AE0      		ldi r24,lo8(10)
+ 411               	.L58:
+ 412 029c 8093 9C00 		sts 156,r24
+ 413               	.L57:
+ 414 02a0 8091 9B00 		lds r24,155
+ 415 02a4 85FF      		sbrs r24,5
+ 416 02a6 00C0      		rjmp .L57
+ 417 02a8 3196      		adiw r30,1
+ 418 02aa 8081      		ld r24,Z
+ 419 02ac 8823      		tst r24
+ 420 02ae 01F4      		brne .L58
+ 421 02b0 8091 0000 		lds r24,myflag
+ 422 02b4 9091 0000 		lds r25,(myflag)+1
+ 423 02b8 60E1      		ldi r22,lo8(16)
+ 424 02ba 40E0      		ldi r20,lo8(0)
+ 425 02bc 9801      		movw r18,r16
+ 426 02be 0E94 0000 		call OSFlagPost
+ 427 02c2 8981      		ldd r24,Y+1
+ 428 02c4 8823      		tst r24
+ 429 02c6 01F4      		brne .L54
+ 430 02c8 E0E0      		ldi r30,lo8(.LC7)
+GAS LISTING /tmp/cctgokNP.s 			page 9
+
+
+ 431 02ca F0E0      		ldi r31,hi8(.LC7)
+ 432 02cc 8AE0      		ldi r24,lo8(10)
+ 433               	.L60:
+ 434 02ce 8093 9C00 		sts 156,r24
+ 435               	.L59:
+ 436 02d2 8091 9B00 		lds r24,155
+ 437 02d6 85FF      		sbrs r24,5
+ 438 02d8 00C0      		rjmp .L59
+ 439 02da 3196      		adiw r30,1
+ 440 02dc 8081      		ld r24,Z
+ 441 02de 8823      		tst r24
+ 442 02e0 01F4      		brne .L60
+ 443 02e2 8AE7      		ldi r24,lo8(122)
+ 444 02e4 90E0      		ldi r25,hi8(122)
+ 445 02e6 0E94 0000 		call OSTimeDly
+ 446 02ea 00C0      		rjmp .L72
+ 447               		.size	task2, .-task2
+ 448               		.data
+ 449               	.LC8:
+ 450 009b 0A53 7769 		.string	"\nSwitch 1 pressed\n"
+ 450      7463 6820 
+ 450      3120 7072 
+ 450      6573 7365 
+ 450      640A 00
+ 451               	.LC9:
+ 452 00ae 0A46 6C61 		.string	"\nFlag set in task 1\n"
+ 452      6720 7365 
+ 452      7420 696E 
+ 452      2074 6173 
+ 452      6B20 310A 
+ 453               	.LC10:
+ 454 00c3 0A53 7769 		.string	"\nSwitch 1 not pressed\n"
+ 454      7463 6820 
+ 454      3120 6E6F 
+ 454      7420 7072 
+ 454      6573 7365 
+ 455               	.LC11:
+ 456 00da 0A46 6C61 		.string	"\nFlag cleared in task 1\n"
+ 456      6720 636C 
+ 456      6561 7265 
+ 456      6420 696E 
+ 456      2074 6173 
+ 457               		.text
+ 458               	.global	task1
+ 459               		.type	task1, @function
+ 460               	task1:
+ 461 02ec FF92      		push r15
+ 462 02ee 0F93      		push r16
+ 463 02f0 1F93      		push r17
+ 464 02f2 DF93      		push r29
+ 465 02f4 CF93      		push r28
+ 466 02f6 0F92      		push __tmp_reg__
+ 467 02f8 CDB7      		in r28,__SP_L__
+ 468 02fa DEB7      		in r29,__SP_H__
+ 469               	/* prologue: function */
+ 470               	/* frame size = 1 */
+ 471 02fc 12BE      		out 82-32,__zero_reg__
+GAS LISTING /tmp/cctgokNP.s 			page 10
+
+
+ 472 02fe 87E0      		ldi r24,lo8(7)
+ 473 0300 83BF      		out 83-32,r24
+ 474 0302 81E0      		ldi r24,lo8(1)
+ 475 0304 87BF      		out 87-32,r24
+ 476 0306 8E01      		movw r16,r28
+ 477 0308 0F5F      		subi r16,lo8(-(1))
+ 478 030a 1F4F      		sbci r17,hi8(-(1))
+ 479 030c 4EEF      		ldi r20,lo8(-2)
+ 480 030e F42E      		mov r15,r20
+ 481 0310 F5BA      		out 53-32,r15
+ 482 0312 8699      		sbic 48-32,6
+ 483 0314 00C0      		rjmp .L74
+ 484               	.L94:
+ 485 0316 E0E0      		ldi r30,lo8(.LC8)
+ 486 0318 F0E0      		ldi r31,hi8(.LC8)
+ 487 031a 8AE0      		ldi r24,lo8(10)
+ 488               	.L76:
+ 489 031c 8093 9C00 		sts 156,r24
+ 490               	.L75:
+ 491 0320 8091 9B00 		lds r24,155
+ 492 0324 85FF      		sbrs r24,5
+ 493 0326 00C0      		rjmp .L75
+ 494 0328 3196      		adiw r30,1
+ 495 032a 8081      		ld r24,Z
+ 496 032c 8823      		tst r24
+ 497 032e 01F4      		brne .L76
+ 498 0330 8091 0000 		lds r24,myflag
+ 499 0334 9091 0000 		lds r25,(myflag)+1
+ 500 0338 68E0      		ldi r22,lo8(8)
+ 501 033a 41E0      		ldi r20,lo8(1)
+ 502 033c 9801      		movw r18,r16
+ 503 033e 0E94 0000 		call OSFlagPost
+ 504 0342 8981      		ldd r24,Y+1
+ 505 0344 8823      		tst r24
+ 506 0346 01F4      		brne .L77
+ 507 0348 E0E0      		ldi r30,lo8(.LC9)
+ 508 034a F0E0      		ldi r31,hi8(.LC9)
+ 509 034c 8AE0      		ldi r24,lo8(10)
+ 510               	.L79:
+ 511 034e 8093 9C00 		sts 156,r24
+ 512               	.L78:
+ 513 0352 8091 9B00 		lds r24,155
+ 514 0356 85FF      		sbrs r24,5
+ 515 0358 00C0      		rjmp .L78
+ 516 035a 3196      		adiw r30,1
+ 517 035c 8081      		ld r24,Z
+ 518 035e 8823      		tst r24
+ 519 0360 01F4      		brne .L79
+ 520               	.L77:
+ 521 0362 8DE3      		ldi r24,lo8(61)
+ 522 0364 90E0      		ldi r25,hi8(61)
+ 523 0366 0E94 0000 		call OSTimeDly
+ 524               	.L95:
+ 525 036a F5BA      		out 53-32,r15
+ 526 036c 869B      		sbis 48-32,6
+ 527 036e 00C0      		rjmp .L94
+ 528               	.L74:
+GAS LISTING /tmp/cctgokNP.s 			page 11
+
+
+ 529 0370 E0E0      		ldi r30,lo8(.LC10)
+ 530 0372 F0E0      		ldi r31,hi8(.LC10)
+ 531 0374 8AE0      		ldi r24,lo8(10)
+ 532               	.L81:
+ 533 0376 8093 9C00 		sts 156,r24
+ 534               	.L80:
+ 535 037a 8091 9B00 		lds r24,155
+ 536 037e 85FF      		sbrs r24,5
+ 537 0380 00C0      		rjmp .L80
+ 538 0382 3196      		adiw r30,1
+ 539 0384 8081      		ld r24,Z
+ 540 0386 8823      		tst r24
+ 541 0388 01F4      		brne .L81
+ 542 038a 8091 0000 		lds r24,myflag
+ 543 038e 9091 0000 		lds r25,(myflag)+1
+ 544 0392 68E0      		ldi r22,lo8(8)
+ 545 0394 40E0      		ldi r20,lo8(0)
+ 546 0396 9801      		movw r18,r16
+ 547 0398 0E94 0000 		call OSFlagPost
+ 548 039c 8981      		ldd r24,Y+1
+ 549 039e 8823      		tst r24
+ 550 03a0 01F4      		brne .L77
+ 551 03a2 E0E0      		ldi r30,lo8(.LC11)
+ 552 03a4 F0E0      		ldi r31,hi8(.LC11)
+ 553 03a6 8AE0      		ldi r24,lo8(10)
+ 554               	.L83:
+ 555 03a8 8093 9C00 		sts 156,r24
+ 556               	.L82:
+ 557 03ac 8091 9B00 		lds r24,155
+ 558 03b0 85FF      		sbrs r24,5
+ 559 03b2 00C0      		rjmp .L82
+ 560 03b4 3196      		adiw r30,1
+ 561 03b6 8081      		ld r24,Z
+ 562 03b8 8823      		tst r24
+ 563 03ba 01F4      		brne .L83
+ 564 03bc 8DE3      		ldi r24,lo8(61)
+ 565 03be 90E0      		ldi r25,hi8(61)
+ 566 03c0 0E94 0000 		call OSTimeDly
+ 567 03c4 00C0      		rjmp .L95
+ 568               		.size	task1, .-task1
+ 569               	.global	main
+ 570               		.type	main, @function
+ 571               	main:
+ 572               	/* prologue: function */
+ 573               	/* frame size = 0 */
+ 574 03c6 0E94 0000 		call OSInit
+ 575 03ca 80E0      		ldi r24,lo8(gs(task1))
+ 576 03cc 90E0      		ldi r25,hi8(gs(task1))
+ 577 03ce 60E0      		ldi r22,lo8(0)
+ 578 03d0 70E0      		ldi r23,hi8(0)
+ 579 03d2 40E0      		ldi r20,lo8(task1_stack+255)
+ 580 03d4 50E0      		ldi r21,hi8(task1_stack+255)
+ 581 03d6 24E0      		ldi r18,lo8(4)
+ 582 03d8 0E94 0000 		call OSTaskCreate
+ 583 03dc 80E0      		ldi r24,lo8(gs(task2))
+ 584 03de 90E0      		ldi r25,hi8(gs(task2))
+ 585 03e0 60E0      		ldi r22,lo8(0)
+GAS LISTING /tmp/cctgokNP.s 			page 12
+
+
+ 586 03e2 70E0      		ldi r23,hi8(0)
+ 587 03e4 40E0      		ldi r20,lo8(task2_stack+255)
+ 588 03e6 50E0      		ldi r21,hi8(task2_stack+255)
+ 589 03e8 25E0      		ldi r18,lo8(5)
+ 590 03ea 0E94 0000 		call OSTaskCreate
+ 591 03ee 80E0      		ldi r24,lo8(gs(task3))
+ 592 03f0 90E0      		ldi r25,hi8(gs(task3))
+ 593 03f2 60E0      		ldi r22,lo8(0)
+ 594 03f4 70E0      		ldi r23,hi8(0)
+ 595 03f6 40E0      		ldi r20,lo8(task3_stack+255)
+ 596 03f8 50E0      		ldi r21,hi8(task3_stack+255)
+ 597 03fa 26E0      		ldi r18,lo8(6)
+ 598 03fc 0E94 0000 		call OSTaskCreate
+ 599 0400 80E0      		ldi r24,lo8(0)
+ 600 0402 60E0      		ldi r22,lo8(errflag)
+ 601 0404 70E0      		ldi r23,hi8(errflag)
+ 602 0406 0E94 0000 		call OSFlagCreate
+ 603 040a 9093 0000 		sts (myflag)+1,r25
+ 604 040e 8093 0000 		sts myflag,r24
+ 605 0412 1092 9800 		sts 152,__zero_reg__
+ 606 0416 87E6      		ldi r24,lo8(103)
+ 607 0418 8093 9900 		sts 153,r24
+ 608 041c EAE9      		ldi r30,lo8(154)
+ 609 041e F0E0      		ldi r31,hi8(154)
+ 610 0420 8081      		ld r24,Z
+ 611 0422 8861      		ori r24,lo8(24)
+ 612 0424 8083      		st Z,r24
+ 613 0426 8FEF      		ldi r24,lo8(-1)
+ 614 0428 84BB      		out 52-32,r24
+ 615 042a 11BA      		out 49-32,__zero_reg__
+ 616 042c 82BB      		out 50-32,r24
+ 617 042e 0E94 0000 		call OSStart
+ 618               	/* epilogue start */
+ 619 0432 0895      		ret
+ 620               		.size	main, .-main
+ 621               		.comm buffer,20,1
+ 622               		.comm task1_stack,256,1
+ 623               		.comm task2_stack,256,1
+ 624               		.comm task3_stack,256,1
+ 625               		.comm myflag,2,1
+ 626               		.comm errflag,1,1
+GAS LISTING /tmp/cctgokNP.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 flag_switch.c
+     /tmp/cctgokNP.s:2      *ABS*:0000003f __SREG__
+     /tmp/cctgokNP.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cctgokNP.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cctgokNP.s:5      *ABS*:00000034 __CCP__
+     /tmp/cctgokNP.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cctgokNP.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cctgokNP.s:13     .text:00000000 u1init
+     /tmp/cctgokNP.s:29     .text:00000016 u1tx
+     /tmp/cctgokNP.s:42     .text:00000024 u1rx
+     /tmp/cctgokNP.s:55     .text:00000032 u1txstr
+     /tmp/cctgokNP.s:77     .text:00000050 inittimer
+     /tmp/cctgokNP.s:94     .text:0000005c u1txnum
+                            *COM*:00000014 buffer
+     /tmp/cctgokNP.s:159    .text:000000c2 task3
+                            *COM*:00000002 myflag
+     /tmp/cctgokNP.s:339    .text:00000212 task2
+     /tmp/cctgokNP.s:460    .text:000002ec task1
+     /tmp/cctgokNP.s:571    .text:000003c6 main
+                            *COM*:00000100 task1_stack
+                            *COM*:00000100 task2_stack
+                            *COM*:00000100 task3_stack
+                            *COM*:00000001 errflag
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+sprintf
+OSFlagPend
+OSTimeDly
+OSFlagPost
+OSInit
+OSTaskCreate
+OSFlagCreate
+OSStart

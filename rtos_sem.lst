@@ -1,0 +1,477 @@
+GAS LISTING /tmp/ccizciSE.s 			page 1
+
+
+   1               		.file	"rtos_sem.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	u1init
+  12               		.type	u1init, @function
+  13               	u1init:
+  14               	/* prologue: function */
+  15               	/* frame size = 0 */
+  16 0000 1092 9800 		sts 152,__zero_reg__
+  17 0004 87E6      		ldi r24,lo8(103)
+  18 0006 8093 9900 		sts 153,r24
+  19 000a EAE9      		ldi r30,lo8(154)
+  20 000c F0E0      		ldi r31,hi8(154)
+  21 000e 8081      		ld r24,Z
+  22 0010 8861      		ori r24,lo8(24)
+  23 0012 8083      		st Z,r24
+  24               	/* epilogue start */
+  25 0014 0895      		ret
+  26               		.size	u1init, .-u1init
+  27               	.global	u1tx
+  28               		.type	u1tx, @function
+  29               	u1tx:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 0016 8093 9C00 		sts 156,r24
+  33               	.L4:
+  34 001a 8091 9B00 		lds r24,155
+  35 001e 85FF      		sbrs r24,5
+  36 0020 00C0      		rjmp .L4
+  37               	/* epilogue start */
+  38 0022 0895      		ret
+  39               		.size	u1tx, .-u1tx
+  40               	.global	u1rx
+  41               		.type	u1rx, @function
+  42               	u1rx:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	.L9:
+  46 0024 8091 9B00 		lds r24,155
+  47 0028 87FF      		sbrs r24,7
+  48 002a 00C0      		rjmp .L9
+  49 002c 8091 9C00 		lds r24,156
+  50               	/* epilogue start */
+  51 0030 0895      		ret
+  52               		.size	u1rx, .-u1rx
+  53               	.global	u1txstr
+  54               		.type	u1txstr, @function
+  55               	u1txstr:
+  56               	/* prologue: function */
+  57               	/* frame size = 0 */
+GAS LISTING /tmp/ccizciSE.s 			page 2
+
+
+  58 0032 FC01      		movw r30,r24
+  59 0034 8081      		ld r24,Z
+  60 0036 8823      		tst r24
+  61 0038 01F0      		breq .L16
+  62               	.L17:
+  63 003a 8093 9C00 		sts 156,r24
+  64               	.L14:
+  65 003e 8091 9B00 		lds r24,155
+  66 0042 85FF      		sbrs r24,5
+  67 0044 00C0      		rjmp .L14
+  68 0046 3196      		adiw r30,1
+  69 0048 8081      		ld r24,Z
+  70 004a 8823      		tst r24
+  71 004c 01F4      		brne .L17
+  72               	.L16:
+  73 004e 0895      		ret
+  74               		.size	u1txstr, .-u1txstr
+  75               	.global	inittimer
+  76               		.type	inittimer, @function
+  77               	inittimer:
+  78               	/* prologue: function */
+  79               	/* frame size = 0 */
+  80 0050 12BE      		out 82-32,__zero_reg__
+  81 0052 87E0      		ldi r24,lo8(7)
+  82 0054 83BF      		out 83-32,r24
+  83 0056 81E0      		ldi r24,lo8(1)
+  84 0058 87BF      		out 87-32,r24
+  85               	/* epilogue start */
+  86 005a 0895      		ret
+  87               		.size	inittimer, .-inittimer
+  88               		.data
+  89               	.LC0:
+  90 0000 0A54 6173 		.string	"\nTask3"
+  90      6B33 00
+  91               	.LC1:
+  92 0007 0A53 656D 		.string	"\nSemaphore 3 released"
+  92      6170 686F 
+  92      7265 2033 
+  92      2072 656C 
+  92      6561 7365 
+  93               		.text
+  94               	.global	task3
+  95               		.type	task3, @function
+  96               	task3:
+  97               	/* prologue: function */
+  98               	/* frame size = 0 */
+  99               	.L35:
+ 100 005c 8091 0000 		lds r24,semph
+ 101 0060 9091 0000 		lds r25,(semph)+1
+ 102 0064 60E0      		ldi r22,lo8(0)
+ 103 0066 70E0      		ldi r23,hi8(0)
+ 104 0068 40E0      		ldi r20,lo8(err)
+ 105 006a 50E0      		ldi r21,hi8(err)
+ 106 006c 0E94 0000 		call OSSemPend
+ 107 0070 8091 0000 		lds r24,err
+ 108 0074 8823      		tst r24
+ 109 0076 01F4      		brne .L35
+GAS LISTING /tmp/ccizciSE.s 			page 3
+
+
+ 110 0078 E0E0      		ldi r30,lo8(.LC0)
+ 111 007a F0E0      		ldi r31,hi8(.LC0)
+ 112 007c 8AE0      		ldi r24,lo8(10)
+ 113               	.L25:
+ 114 007e 8093 9C00 		sts 156,r24
+ 115               	.L24:
+ 116 0082 8091 9B00 		lds r24,155
+ 117 0086 85FF      		sbrs r24,5
+ 118 0088 00C0      		rjmp .L24
+ 119 008a 3196      		adiw r30,1
+ 120 008c 8081      		ld r24,Z
+ 121 008e 8823      		tst r24
+ 122 0090 01F4      		brne .L25
+ 123 0092 82E3      		ldi r24,lo8(50)
+ 124 0094 90E0      		ldi r25,hi8(50)
+ 125 0096 0E94 0000 		call OSTimeDly
+ 126 009a 8091 0000 		lds r24,semph
+ 127 009e 9091 0000 		lds r25,(semph)+1
+ 128 00a2 0E94 0000 		call OSSemPost
+ 129 00a6 8093 0000 		sts err,r24
+ 130 00aa 8823      		tst r24
+ 131 00ac 01F4      		brne .L35
+ 132 00ae E0E0      		ldi r30,lo8(.LC1)
+ 133 00b0 F0E0      		ldi r31,hi8(.LC1)
+ 134 00b2 8AE0      		ldi r24,lo8(10)
+ 135               	.L27:
+ 136 00b4 8093 9C00 		sts 156,r24
+ 137               	.L26:
+ 138 00b8 8091 9B00 		lds r24,155
+ 139 00bc 85FF      		sbrs r24,5
+ 140 00be 00C0      		rjmp .L26
+ 141 00c0 3196      		adiw r30,1
+ 142 00c2 8081      		ld r24,Z
+ 143 00c4 8823      		tst r24
+ 144 00c6 01F0      		breq .L35
+ 145 00c8 00C0      		rjmp .L27
+ 146               		.size	task3, .-task3
+ 147               		.data
+ 148               	.LC2:
+ 149 001d 0A54 6173 		.string	"\nTask2"
+ 149      6B32 00
+ 150               	.LC3:
+ 151 0024 0A53 656D 		.string	"\nSemaphore 2 released"
+ 151      6170 686F 
+ 151      7265 2032 
+ 151      2072 656C 
+ 151      6561 7365 
+ 152               		.text
+ 153               	.global	task2
+ 154               		.type	task2, @function
+ 155               	task2:
+ 156               	/* prologue: function */
+ 157               	/* frame size = 0 */
+ 158               	.L49:
+ 159 00ca 8091 0000 		lds r24,semph
+ 160 00ce 9091 0000 		lds r25,(semph)+1
+ 161 00d2 60E0      		ldi r22,lo8(0)
+GAS LISTING /tmp/ccizciSE.s 			page 4
+
+
+ 162 00d4 70E0      		ldi r23,hi8(0)
+ 163 00d6 40E0      		ldi r20,lo8(err)
+ 164 00d8 50E0      		ldi r21,hi8(err)
+ 165 00da 0E94 0000 		call OSSemPend
+ 166 00de 8091 0000 		lds r24,err
+ 167 00e2 8823      		tst r24
+ 168 00e4 01F4      		brne .L49
+ 169 00e6 E0E0      		ldi r30,lo8(.LC2)
+ 170 00e8 F0E0      		ldi r31,hi8(.LC2)
+ 171 00ea 8AE0      		ldi r24,lo8(10)
+ 172               	.L39:
+ 173 00ec 8093 9C00 		sts 156,r24
+ 174               	.L38:
+ 175 00f0 8091 9B00 		lds r24,155
+ 176 00f4 85FF      		sbrs r24,5
+ 177 00f6 00C0      		rjmp .L38
+ 178 00f8 3196      		adiw r30,1
+ 179 00fa 8081      		ld r24,Z
+ 180 00fc 8823      		tst r24
+ 181 00fe 01F4      		brne .L39
+ 182 0100 8CE3      		ldi r24,lo8(60)
+ 183 0102 90E0      		ldi r25,hi8(60)
+ 184 0104 0E94 0000 		call OSTimeDly
+ 185 0108 8091 0000 		lds r24,semph
+ 186 010c 9091 0000 		lds r25,(semph)+1
+ 187 0110 0E94 0000 		call OSSemPost
+ 188 0114 8093 0000 		sts err,r24
+ 189 0118 8823      		tst r24
+ 190 011a 01F4      		brne .L49
+ 191 011c E0E0      		ldi r30,lo8(.LC3)
+ 192 011e F0E0      		ldi r31,hi8(.LC3)
+ 193 0120 8AE0      		ldi r24,lo8(10)
+ 194               	.L41:
+ 195 0122 8093 9C00 		sts 156,r24
+ 196               	.L40:
+ 197 0126 8091 9B00 		lds r24,155
+ 198 012a 85FF      		sbrs r24,5
+ 199 012c 00C0      		rjmp .L40
+ 200 012e 3196      		adiw r30,1
+ 201 0130 8081      		ld r24,Z
+ 202 0132 8823      		tst r24
+ 203 0134 01F0      		breq .L49
+ 204 0136 00C0      		rjmp .L41
+ 205               		.size	task2, .-task2
+ 206               		.data
+ 207               	.LC4:
+ 208 003a 0A54 6173 		.string	"\nTask1"
+ 208      6B31 00
+ 209               	.LC5:
+ 210 0041 0A53 656D 		.string	"\nSemaphore 1 released"
+ 210      6170 686F 
+ 210      7265 2031 
+ 210      2072 656C 
+ 210      6561 7365 
+ 211               		.text
+ 212               	.global	task1
+ 213               		.type	task1, @function
+GAS LISTING /tmp/ccizciSE.s 			page 5
+
+
+ 214               	task1:
+ 215               	/* prologue: function */
+ 216               	/* frame size = 0 */
+ 217 0138 12BE      		out 82-32,__zero_reg__
+ 218 013a 87E0      		ldi r24,lo8(7)
+ 219 013c 83BF      		out 83-32,r24
+ 220 013e 81E0      		ldi r24,lo8(1)
+ 221 0140 87BF      		out 87-32,r24
+ 222               	.L64:
+ 223 0142 8091 0000 		lds r24,semph
+ 224 0146 9091 0000 		lds r25,(semph)+1
+ 225 014a 60E0      		ldi r22,lo8(0)
+ 226 014c 70E0      		ldi r23,hi8(0)
+ 227 014e 40E0      		ldi r20,lo8(err)
+ 228 0150 50E0      		ldi r21,hi8(err)
+ 229 0152 0E94 0000 		call OSSemPend
+ 230 0156 8091 0000 		lds r24,err
+ 231 015a 8823      		tst r24
+ 232 015c 01F4      		brne .L51
+ 233 015e E0E0      		ldi r30,lo8(.LC4)
+ 234 0160 F0E0      		ldi r31,hi8(.LC4)
+ 235 0162 8AE0      		ldi r24,lo8(10)
+ 236               	.L53:
+ 237 0164 8093 9C00 		sts 156,r24
+ 238               	.L52:
+ 239 0168 8091 9B00 		lds r24,155
+ 240 016c 85FF      		sbrs r24,5
+ 241 016e 00C0      		rjmp .L52
+ 242 0170 3196      		adiw r30,1
+ 243 0172 8081      		ld r24,Z
+ 244 0174 8823      		tst r24
+ 245 0176 01F4      		brne .L53
+ 246               	.L51:
+ 247 0178 88E7      		ldi r24,lo8(120)
+ 248 017a 90E0      		ldi r25,hi8(120)
+ 249 017c 0E94 0000 		call OSTimeDly
+ 250 0180 8091 0000 		lds r24,semph
+ 251 0184 9091 0000 		lds r25,(semph)+1
+ 252 0188 0E94 0000 		call OSSemPost
+ 253 018c 8093 0000 		sts err,r24
+ 254 0190 8823      		tst r24
+ 255 0192 01F4      		brne .L64
+ 256 0194 E0E0      		ldi r30,lo8(.LC5)
+ 257 0196 F0E0      		ldi r31,hi8(.LC5)
+ 258 0198 8AE0      		ldi r24,lo8(10)
+ 259               	.L56:
+ 260 019a 8093 9C00 		sts 156,r24
+ 261               	.L55:
+ 262 019e 8091 9B00 		lds r24,155
+ 263 01a2 85FF      		sbrs r24,5
+ 264 01a4 00C0      		rjmp .L55
+ 265 01a6 3196      		adiw r30,1
+ 266 01a8 8081      		ld r24,Z
+ 267 01aa 8823      		tst r24
+ 268 01ac 01F0      		breq .L64
+ 269 01ae 00C0      		rjmp .L56
+ 270               		.size	task1, .-task1
+GAS LISTING /tmp/ccizciSE.s 			page 6
+
+
+ 271               		.data
+ 272               	.LC6:
+ 273 0057 0A20 00   		.string	"\n "
+ 274               		.text
+ 275               	.global	main
+ 276               		.type	main, @function
+ 277               	main:
+ 278               	/* prologue: function */
+ 279               	/* frame size = 0 */
+ 280 01b0 0E94 0000 		call OSInit
+ 281 01b4 80E0      		ldi r24,lo8(gs(task1))
+ 282 01b6 90E0      		ldi r25,hi8(gs(task1))
+ 283 01b8 60E0      		ldi r22,lo8(0)
+ 284 01ba 70E0      		ldi r23,hi8(0)
+ 285 01bc 40E0      		ldi r20,lo8(task1_stack+255)
+ 286 01be 50E0      		ldi r21,hi8(task1_stack+255)
+ 287 01c0 24E0      		ldi r18,lo8(4)
+ 288 01c2 0E94 0000 		call OSTaskCreate
+ 289 01c6 80E0      		ldi r24,lo8(gs(task2))
+ 290 01c8 90E0      		ldi r25,hi8(gs(task2))
+ 291 01ca 60E0      		ldi r22,lo8(0)
+ 292 01cc 70E0      		ldi r23,hi8(0)
+ 293 01ce 40E0      		ldi r20,lo8(task2_stack+255)
+ 294 01d0 50E0      		ldi r21,hi8(task2_stack+255)
+ 295 01d2 25E0      		ldi r18,lo8(5)
+ 296 01d4 0E94 0000 		call OSTaskCreate
+ 297 01d8 80E0      		ldi r24,lo8(gs(task3))
+ 298 01da 90E0      		ldi r25,hi8(gs(task3))
+ 299 01dc 60E0      		ldi r22,lo8(0)
+ 300 01de 70E0      		ldi r23,hi8(0)
+ 301 01e0 40E0      		ldi r20,lo8(task3_stack+255)
+ 302 01e2 50E0      		ldi r21,hi8(task3_stack+255)
+ 303 01e4 26E0      		ldi r18,lo8(6)
+ 304 01e6 0E94 0000 		call OSTaskCreate
+ 305 01ea 83E0      		ldi r24,lo8(3)
+ 306 01ec 90E0      		ldi r25,hi8(3)
+ 307 01ee 0E94 0000 		call OSSemCreate
+ 308 01f2 9093 0000 		sts (semph)+1,r25
+ 309 01f6 8093 0000 		sts semph,r24
+ 310 01fa 1092 9800 		sts 152,__zero_reg__
+ 311 01fe 87E6      		ldi r24,lo8(103)
+ 312 0200 8093 9900 		sts 153,r24
+ 313 0204 8091 9A00 		lds r24,154
+ 314 0208 8861      		ori r24,lo8(24)
+ 315 020a 8093 9A00 		sts 154,r24
+ 316 020e 0E94 0000 		call OSStart
+ 317 0212 E0E0      		ldi r30,lo8(.LC6)
+ 318 0214 F0E0      		ldi r31,hi8(.LC6)
+ 319 0216 8AE0      		ldi r24,lo8(10)
+ 320               	.L67:
+ 321 0218 8093 9C00 		sts 156,r24
+ 322               	.L66:
+ 323 021c 8091 9B00 		lds r24,155
+ 324 0220 85FF      		sbrs r24,5
+ 325 0222 00C0      		rjmp .L66
+ 326 0224 3196      		adiw r30,1
+ 327 0226 8081      		ld r24,Z
+GAS LISTING /tmp/ccizciSE.s 			page 7
+
+
+ 328 0228 8823      		tst r24
+ 329 022a 01F4      		brne .L67
+ 330               	/* epilogue start */
+ 331 022c 0895      		ret
+ 332               		.size	main, .-main
+ 333               		.data
+ 334               	.LC7:
+ 335 005a 2564 00   		.string	"%d"
+ 336               		.text
+ 337               	.global	u1txnum
+ 338               		.type	u1txnum, @function
+ 339               	u1txnum:
+ 340 022e CF93      		push r28
+ 341 0230 DF93      		push r29
+ 342               	/* prologue: function */
+ 343               	/* frame size = 0 */
+ 344 0232 00D0      		rcall .
+ 345 0234 00D0      		rcall .
+ 346 0236 00D0      		rcall .
+ 347 0238 EDB7      		in r30,__SP_L__
+ 348 023a FEB7      		in r31,__SP_H__
+ 349 023c 3196      		adiw r30,1
+ 350 023e C0E0      		ldi r28,lo8(buffer)
+ 351 0240 D0E0      		ldi r29,hi8(buffer)
+ 352 0242 ADB7      		in r26,__SP_L__
+ 353 0244 BEB7      		in r27,__SP_H__
+ 354 0246 1296      		adiw r26,1+1
+ 355 0248 DC93      		st X,r29
+ 356 024a CE93      		st -X,r28
+ 357 024c 1197      		sbiw r26,1
+ 358 024e 20E0      		ldi r18,lo8(.LC7)
+ 359 0250 30E0      		ldi r19,hi8(.LC7)
+ 360 0252 3383      		std Z+3,r19
+ 361 0254 2283      		std Z+2,r18
+ 362 0256 9583      		std Z+5,r25
+ 363 0258 8483      		std Z+4,r24
+ 364 025a 0E94 0000 		call sprintf
+ 365 025e 8091 0000 		lds r24,buffer
+ 366 0262 2DB7      		in r18,__SP_L__
+ 367 0264 3EB7      		in r19,__SP_H__
+ 368 0266 2A5F      		subi r18,lo8(-(6))
+ 369 0268 3F4F      		sbci r19,hi8(-(6))
+ 370 026a 0FB6      		in __tmp_reg__,__SREG__
+ 371 026c F894      		cli
+ 372 026e 3EBF      		out __SP_H__,r19
+ 373 0270 0FBE      		out __SREG__,__tmp_reg__
+ 374 0272 2DBF      		out __SP_L__,r18
+ 375 0274 8823      		tst r24
+ 376 0276 01F0      		breq .L75
+ 377 0278 FE01      		movw r30,r28
+ 378               	.L74:
+ 379 027a 8093 9C00 		sts 156,r24
+ 380               	.L73:
+ 381 027e 8091 9B00 		lds r24,155
+ 382 0282 85FF      		sbrs r24,5
+ 383 0284 00C0      		rjmp .L73
+ 384 0286 3196      		adiw r30,1
+GAS LISTING /tmp/ccizciSE.s 			page 8
+
+
+ 385 0288 8081      		ld r24,Z
+ 386 028a 8823      		tst r24
+ 387 028c 01F4      		brne .L74
+ 388               	.L75:
+ 389               	/* epilogue start */
+ 390 028e DF91      		pop r29
+ 391 0290 CF91      		pop r28
+ 392 0292 0895      		ret
+ 393               		.size	u1txnum, .-u1txnum
+ 394               		.comm buffer,20,1
+ 395               		.comm task1_stack,256,1
+ 396               		.comm task2_stack,256,1
+ 397               		.comm task3_stack,256,1
+ 398               		.comm semph,2,1
+ 399               		.comm err,1,1
+GAS LISTING /tmp/ccizciSE.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 rtos_sem.c
+     /tmp/ccizciSE.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccizciSE.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccizciSE.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccizciSE.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccizciSE.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccizciSE.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccizciSE.s:13     .text:00000000 u1init
+     /tmp/ccizciSE.s:29     .text:00000016 u1tx
+     /tmp/ccizciSE.s:42     .text:00000024 u1rx
+     /tmp/ccizciSE.s:55     .text:00000032 u1txstr
+     /tmp/ccizciSE.s:77     .text:00000050 inittimer
+     /tmp/ccizciSE.s:96     .text:0000005c task3
+                            *COM*:00000002 semph
+                            *COM*:00000001 err
+     /tmp/ccizciSE.s:155    .text:000000ca task2
+     /tmp/ccizciSE.s:214    .text:00000138 task1
+     /tmp/ccizciSE.s:277    .text:000001b0 main
+                            *COM*:00000100 task1_stack
+                            *COM*:00000100 task2_stack
+                            *COM*:00000100 task3_stack
+     /tmp/ccizciSE.s:339    .text:0000022e u1txnum
+                            *COM*:00000014 buffer
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+OSSemPend
+OSTimeDly
+OSSemPost
+OSInit
+OSTaskCreate
+OSSemCreate
+OSStart
+sprintf

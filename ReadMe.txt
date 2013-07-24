@@ -1,0 +1,1 @@
+All these files are to be copied to the project folder

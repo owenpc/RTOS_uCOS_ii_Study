@@ -1,0 +1,563 @@
+GAS LISTING /tmp/ccu3eNYc.s 			page 1
+
+
+   1               		.file	"msgqdiff.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	u1init
+  12               		.type	u1init, @function
+  13               	u1init:
+  14               	/* prologue: function */
+  15               	/* frame size = 0 */
+  16 0000 1092 9800 		sts 152,__zero_reg__
+  17 0004 87E6      		ldi r24,lo8(103)
+  18 0006 8093 9900 		sts 153,r24
+  19 000a EAE9      		ldi r30,lo8(154)
+  20 000c F0E0      		ldi r31,hi8(154)
+  21 000e 8081      		ld r24,Z
+  22 0010 8861      		ori r24,lo8(24)
+  23 0012 8083      		st Z,r24
+  24               	/* epilogue start */
+  25 0014 0895      		ret
+  26               		.size	u1init, .-u1init
+  27               	.global	u1tx
+  28               		.type	u1tx, @function
+  29               	u1tx:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 0016 8093 9C00 		sts 156,r24
+  33               	.L4:
+  34 001a 8091 9B00 		lds r24,155
+  35 001e 85FF      		sbrs r24,5
+  36 0020 00C0      		rjmp .L4
+  37               	/* epilogue start */
+  38 0022 0895      		ret
+  39               		.size	u1tx, .-u1tx
+  40               	.global	u1rx
+  41               		.type	u1rx, @function
+  42               	u1rx:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	.L9:
+  46 0024 8091 9B00 		lds r24,155
+  47 0028 87FF      		sbrs r24,7
+  48 002a 00C0      		rjmp .L9
+  49 002c 8091 9C00 		lds r24,156
+  50               	/* epilogue start */
+  51 0030 0895      		ret
+  52               		.size	u1rx, .-u1rx
+  53               	.global	u1txstr
+  54               		.type	u1txstr, @function
+  55               	u1txstr:
+  56               	/* prologue: function */
+  57               	/* frame size = 0 */
+GAS LISTING /tmp/ccu3eNYc.s 			page 2
+
+
+  58 0032 FC01      		movw r30,r24
+  59 0034 8081      		ld r24,Z
+  60 0036 8823      		tst r24
+  61 0038 01F0      		breq .L16
+  62               	.L17:
+  63 003a 8093 9C00 		sts 156,r24
+  64               	.L14:
+  65 003e 8091 9B00 		lds r24,155
+  66 0042 85FF      		sbrs r24,5
+  67 0044 00C0      		rjmp .L14
+  68 0046 3196      		adiw r30,1
+  69 0048 8081      		ld r24,Z
+  70 004a 8823      		tst r24
+  71 004c 01F4      		brne .L17
+  72               	.L16:
+  73 004e 0895      		ret
+  74               		.size	u1txstr, .-u1txstr
+  75               	.global	inittimer
+  76               		.type	inittimer, @function
+  77               	inittimer:
+  78               	/* prologue: function */
+  79               	/* frame size = 0 */
+  80 0050 12BE      		out 82-32,__zero_reg__
+  81 0052 87E0      		ldi r24,lo8(7)
+  82 0054 83BF      		out 83-32,r24
+  83 0056 81E0      		ldi r24,lo8(1)
+  84 0058 87BF      		out 87-32,r24
+  85               	/* epilogue start */
+  86 005a 0895      		ret
+  87               		.size	inittimer, .-inittimer
+  88               		.data
+  89               	.LC0:
+  90 0000 0A4D 7574 		.string	"\nMutex acq by Task2"
+  90      6578 2061 
+  90      6371 2062 
+  90      7920 5461 
+  90      736B 3200 
+  91               	.LC1:
+  92 0014 0A4D 6573 		.string	"\nMessage read by 2:"
+  92      7361 6765 
+  92      2072 6561 
+  92      6420 6279 
+  92      2032 3A00 
+  93               	.LC2:
+  94 0028 0A4E 6F20 		.string	"\nNo message in Queue!"
+  94      6D65 7373 
+  94      6167 6520 
+  94      696E 2051 
+  94      7565 7565 
+  95               		.text
+  96               	.global	task2
+  97               		.type	task2, @function
+  98               	task2:
+  99 005c EF92      		push r14
+ 100 005e FF92      		push r15
+ 101 0060 0F93      		push r16
+ 102 0062 1F93      		push r17
+GAS LISTING /tmp/ccu3eNYc.s 			page 3
+
+
+ 103 0064 DF93      		push r29
+ 104 0066 CF93      		push r28
+ 105 0068 0F92      		push __tmp_reg__
+ 106 006a CDB7      		in r28,__SP_L__
+ 107 006c DEB7      		in r29,__SP_H__
+ 108               	/* prologue: function */
+ 109               	/* frame size = 1 */
+ 110 006e 7E01      		movw r14,r28
+ 111 0070 0894      		sec
+ 112 0072 E11C      		adc r14,__zero_reg__
+ 113 0074 F11C      		adc r15,__zero_reg__
+ 114 0076 0DEF      		ldi r16,lo8(-3)
+ 115               	.L33:
+ 116 0078 05BB      		out 53-32,r16
+ 117 007a 8091 0000 		lds r24,mymutex
+ 118 007e 9091 0000 		lds r25,(mymutex)+1
+ 119 0082 60E0      		ldi r22,lo8(0)
+ 120 0084 70E0      		ldi r23,hi8(0)
+ 121 0086 A701      		movw r20,r14
+ 122 0088 0E94 0000 		call OSMutexPend
+ 123 008c 8981      		ldd r24,Y+1
+ 124 008e 8823      		tst r24
+ 125 0090 01F4      		brne .L23
+ 126 0092 E0E0      		ldi r30,lo8(.LC0)
+ 127 0094 F0E0      		ldi r31,hi8(.LC0)
+ 128 0096 8AE0      		ldi r24,lo8(10)
+ 129               	.L25:
+ 130 0098 8093 9C00 		sts 156,r24
+ 131               	.L24:
+ 132 009c 8091 9B00 		lds r24,155
+ 133 00a0 85FF      		sbrs r24,5
+ 134 00a2 00C0      		rjmp .L24
+ 135 00a4 3196      		adiw r30,1
+ 136 00a6 8081      		ld r24,Z
+ 137 00a8 8823      		tst r24
+ 138 00aa 01F4      		brne .L25
+ 139 00ac 8091 0000 		lds r24,myq
+ 140 00b0 9091 0000 		lds r25,(myq)+1
+ 141 00b4 6AE0      		ldi r22,lo8(10)
+ 142 00b6 70E0      		ldi r23,hi8(10)
+ 143 00b8 10E0      		ldi r17,lo8(0)
+ 144 00ba 412F      		mov r20,r17
+ 145 00bc 50E0      		ldi r21,lo8(0)
+ 146 00be 0E94 0000 		call OSQPend
+ 147 00c2 9C01      		movw r18,r24
+ 148 00c4 1123      		tst r17
+ 149 00c6 01F4      		brne .L26
+ 150 00c8 E0E0      		ldi r30,lo8(.LC1)
+ 151 00ca F0E0      		ldi r31,hi8(.LC1)
+ 152 00cc 8AE0      		ldi r24,lo8(10)
+ 153               	.L28:
+ 154 00ce 8093 9C00 		sts 156,r24
+ 155               	.L27:
+ 156 00d2 8091 9B00 		lds r24,155
+ 157 00d6 85FF      		sbrs r24,5
+ 158 00d8 00C0      		rjmp .L27
+ 159 00da 3196      		adiw r30,1
+GAS LISTING /tmp/ccu3eNYc.s 			page 4
+
+
+ 160 00dc 8081      		ld r24,Z
+ 161 00de 8823      		tst r24
+ 162 00e0 01F4      		brne .L28
+ 163 00e2 F901      		movw r30,r18
+ 164 00e4 8081      		ld r24,Z
+ 165 00e6 8823      		tst r24
+ 166 00e8 01F0      		breq .L23
+ 167               	.L35:
+ 168 00ea 8093 9C00 		sts 156,r24
+ 169               	.L29:
+ 170 00ee 8091 9B00 		lds r24,155
+ 171 00f2 85FF      		sbrs r24,5
+ 172 00f4 00C0      		rjmp .L29
+ 173 00f6 3196      		adiw r30,1
+ 174 00f8 8081      		ld r24,Z
+ 175 00fa 8823      		tst r24
+ 176 00fc 01F4      		brne .L35
+ 177               	.L23:
+ 178 00fe 8091 0000 		lds r24,mymutex
+ 179 0102 9091 0000 		lds r25,(mymutex)+1
+ 180 0106 0E94 0000 		call OSMutexPost
+ 181 010a 87EB      		ldi r24,lo8(183)
+ 182 010c 90E0      		ldi r25,hi8(183)
+ 183 010e 0E94 0000 		call OSTimeDly
+ 184 0112 00C0      		rjmp .L33
+ 185               	.L26:
+ 186 0114 E0E0      		ldi r30,lo8(.LC2)
+ 187 0116 F0E0      		ldi r31,hi8(.LC2)
+ 188 0118 8AE0      		ldi r24,lo8(10)
+ 189               	.L32:
+ 190 011a 8093 9C00 		sts 156,r24
+ 191               	.L31:
+ 192 011e 8091 9B00 		lds r24,155
+ 193 0122 85FF      		sbrs r24,5
+ 194 0124 00C0      		rjmp .L31
+ 195 0126 3196      		adiw r30,1
+ 196 0128 8081      		ld r24,Z
+ 197 012a 8823      		tst r24
+ 198 012c 01F4      		brne .L32
+ 199 012e 00C0      		rjmp .L23
+ 200               		.size	task2, .-task2
+ 201               		.data
+ 202               	.LC3:
+ 203 003e 0A41 4141 		.string	"\nAAAAA"
+ 203      4141 00
+ 204               	.LC4:
+ 205 0045 0A42 4242 		.string	"\nBBBBB"
+ 205      4242 00
+ 206               	.LC5:
+ 207 004c 0A43 4343 		.string	"\nCCCCC"
+ 207      4343 00
+ 208               	.LC6:
+ 209 0053 0A44 4444 		.string	"\nDDDDD"
+ 209      4444 00
+ 210               	.LC7:
+ 211 005a 0A54 6173 		.string	"\nTask1"
+ 211      6B31 00
+GAS LISTING /tmp/ccu3eNYc.s 			page 5
+
+
+ 212               	.LC8:
+ 213 0061 0A4D 6573 		.string	"\nMessage transferred to Queue"
+ 213      7361 6765 
+ 213      2074 7261 
+ 213      6E73 6665 
+ 213      7272 6564 
+ 214               	.LC9:
+ 215 007f 0A51 7565 		.string	"\nQueue is full!"
+ 215      7565 2069 
+ 215      7320 6675 
+ 215      6C6C 2100 
+ 216               		.text
+ 217               	.global	task1
+ 218               		.type	task1, @function
+ 219               	task1:
+ 220 0130 FF92      		push r15
+ 221 0132 0F93      		push r16
+ 222 0134 1F93      		push r17
+ 223 0136 DF93      		push r29
+ 224 0138 CF93      		push r28
+ 225 013a CDB7      		in r28,__SP_L__
+ 226 013c DEB7      		in r29,__SP_H__
+ 227 013e 2997      		sbiw r28,9
+ 228 0140 0FB6      		in __tmp_reg__,__SREG__
+ 229 0142 F894      		cli
+ 230 0144 DEBF      		out __SP_H__,r29
+ 231 0146 0FBE      		out __SREG__,__tmp_reg__
+ 232 0148 CDBF      		out __SP_L__,r28
+ 233               	/* prologue: function */
+ 234               	/* frame size = 9 */
+ 235 014a 12BE      		out 82-32,__zero_reg__
+ 236 014c 87E0      		ldi r24,lo8(7)
+ 237 014e 83BF      		out 83-32,r24
+ 238 0150 81E0      		ldi r24,lo8(1)
+ 239 0152 87BF      		out 87-32,r24
+ 240 0154 80E0      		ldi r24,lo8(.LC3)
+ 241 0156 90E0      		ldi r25,hi8(.LC3)
+ 242 0158 9B83      		std Y+3,r25
+ 243 015a 8A83      		std Y+2,r24
+ 244 015c 80E0      		ldi r24,lo8(.LC4)
+ 245 015e 90E0      		ldi r25,hi8(.LC4)
+ 246 0160 9D83      		std Y+5,r25
+ 247 0162 8C83      		std Y+4,r24
+ 248 0164 80E0      		ldi r24,lo8(.LC5)
+ 249 0166 90E0      		ldi r25,hi8(.LC5)
+ 250 0168 9F83      		std Y+7,r25
+ 251 016a 8E83      		std Y+6,r24
+ 252 016c 80E0      		ldi r24,lo8(.LC6)
+ 253 016e 90E0      		ldi r25,hi8(.LC6)
+ 254 0170 9987      		std Y+9,r25
+ 255 0172 8887      		std Y+8,r24
+ 256 0174 8E01      		movw r16,r28
+ 257 0176 0F5F      		subi r16,lo8(-(1))
+ 258 0178 1F4F      		sbci r17,hi8(-(1))
+ 259 017a 9EEF      		ldi r25,lo8(-2)
+ 260 017c F92E      		mov r15,r25
+ 261               	.L54:
+GAS LISTING /tmp/ccu3eNYc.s 			page 6
+
+
+ 262 017e F5BA      		out 53-32,r15
+ 263 0180 E0E0      		ldi r30,lo8(.LC7)
+ 264 0182 F0E0      		ldi r31,hi8(.LC7)
+ 265 0184 8AE0      		ldi r24,lo8(10)
+ 266               	.L46:
+ 267 0186 8093 9C00 		sts 156,r24
+ 268               	.L45:
+ 269 018a 8091 9B00 		lds r24,155
+ 270 018e 85FF      		sbrs r24,5
+ 271 0190 00C0      		rjmp .L45
+ 272 0192 3196      		adiw r30,1
+ 273 0194 8081      		ld r24,Z
+ 274 0196 8823      		tst r24
+ 275 0198 01F4      		brne .L46
+ 276 019a 8091 0000 		lds r24,mymutex
+ 277 019e 9091 0000 		lds r25,(mymutex)+1
+ 278 01a2 60E0      		ldi r22,lo8(0)
+ 279 01a4 70E0      		ldi r23,hi8(0)
+ 280 01a6 A801      		movw r20,r16
+ 281 01a8 0E94 0000 		call OSMutexPend
+ 282 01ac 8091 0000 		lds r24,err
+ 283 01b0 8823      		tst r24
+ 284 01b2 01F0      		breq .L62
+ 285               	.L47:
+ 286 01b4 8091 0000 		lds r24,mymutex
+ 287 01b8 9091 0000 		lds r25,(mymutex)+1
+ 288 01bc 0E94 0000 		call OSMutexPost
+ 289 01c0 8DE3      		ldi r24,lo8(61)
+ 290 01c2 90E0      		ldi r25,hi8(61)
+ 291 01c4 0E94 0000 		call OSTimeDly
+ 292 01c8 00C0      		rjmp .L54
+ 293               	.L62:
+ 294 01ca E091 0000 		lds r30,count
+ 295 01ce F0E0      		ldi r31,lo8(0)
+ 296 01d0 EE0F      		lsl r30
+ 297 01d2 FF1F      		rol r31
+ 298 01d4 E00F      		add r30,r16
+ 299 01d6 F11F      		adc r31,r17
+ 300 01d8 6181      		ldd r22,Z+1
+ 301 01da 7281      		ldd r23,Z+2
+ 302 01dc 8091 0000 		lds r24,myq
+ 303 01e0 9091 0000 		lds r25,(myq)+1
+ 304 01e4 0E94 0000 		call OSQPost
+ 305 01e8 8823      		tst r24
+ 306 01ea 01F4      		brne .L48
+ 307 01ec E0E0      		ldi r30,lo8(.LC8)
+ 308 01ee F0E0      		ldi r31,hi8(.LC8)
+ 309 01f0 8AE0      		ldi r24,lo8(10)
+ 310               	.L50:
+ 311 01f2 8093 9C00 		sts 156,r24
+ 312               	.L49:
+ 313 01f6 8091 9B00 		lds r24,155
+ 314 01fa 85FF      		sbrs r24,5
+ 315 01fc 00C0      		rjmp .L49
+ 316 01fe 3196      		adiw r30,1
+ 317 0200 8081      		ld r24,Z
+ 318 0202 8823      		tst r24
+GAS LISTING /tmp/ccu3eNYc.s 			page 7
+
+
+ 319 0204 01F4      		brne .L50
+ 320               	.L51:
+ 321 0206 8091 0000 		lds r24,count
+ 322 020a 8F5F      		subi r24,lo8(-(1))
+ 323 020c 8093 0000 		sts count,r24
+ 324 0210 8430      		cpi r24,lo8(4)
+ 325 0212 00F0      		brlo .L47
+ 326 0214 1092 0000 		sts count,__zero_reg__
+ 327 0218 00C0      		rjmp .L47
+ 328               	.L48:
+ 329 021a 8E31      		cpi r24,lo8(30)
+ 330 021c 01F4      		brne .L51
+ 331 021e E0E0      		ldi r30,lo8(.LC9)
+ 332 0220 F0E0      		ldi r31,hi8(.LC9)
+ 333 0222 8AE0      		ldi r24,lo8(10)
+ 334               	.L53:
+ 335 0224 8093 9C00 		sts 156,r24
+ 336               	.L52:
+ 337 0228 8091 9B00 		lds r24,155
+ 338 022c 85FF      		sbrs r24,5
+ 339 022e 00C0      		rjmp .L52
+ 340 0230 3196      		adiw r30,1
+ 341 0232 8081      		ld r24,Z
+ 342 0234 8823      		tst r24
+ 343 0236 01F4      		brne .L53
+ 344 0238 00C0      		rjmp .L51
+ 345               		.size	task1, .-task1
+ 346               	.global	main
+ 347               		.type	main, @function
+ 348               	main:
+ 349               	/* prologue: function */
+ 350               	/* frame size = 0 */
+ 351 023a 0E94 0000 		call OSInit
+ 352 023e 80E0      		ldi r24,lo8(gs(task1))
+ 353 0240 90E0      		ldi r25,hi8(gs(task1))
+ 354 0242 60E0      		ldi r22,lo8(0)
+ 355 0244 70E0      		ldi r23,hi8(0)
+ 356 0246 40E0      		ldi r20,lo8(task1_stack+255)
+ 357 0248 50E0      		ldi r21,hi8(task1_stack+255)
+ 358 024a 25E0      		ldi r18,lo8(5)
+ 359 024c 0E94 0000 		call OSTaskCreate
+ 360 0250 80E0      		ldi r24,lo8(gs(task2))
+ 361 0252 90E0      		ldi r25,hi8(gs(task2))
+ 362 0254 60E0      		ldi r22,lo8(0)
+ 363 0256 70E0      		ldi r23,hi8(0)
+ 364 0258 40E0      		ldi r20,lo8(task2_stack+255)
+ 365 025a 50E0      		ldi r21,hi8(task2_stack+255)
+ 366 025c 26E0      		ldi r18,lo8(6)
+ 367 025e 0E94 0000 		call OSTaskCreate
+ 368 0262 84E0      		ldi r24,lo8(4)
+ 369 0264 60E0      		ldi r22,lo8(err)
+ 370 0266 70E0      		ldi r23,hi8(err)
+ 371 0268 0E94 0000 		call OSMutexCreate
+ 372 026c 9093 0000 		sts (mymutex)+1,r25
+ 373 0270 8093 0000 		sts mymutex,r24
+ 374 0274 80E0      		ldi r24,lo8(qmsg)
+ 375 0276 90E0      		ldi r25,hi8(qmsg)
+GAS LISTING /tmp/ccu3eNYc.s 			page 8
+
+
+ 376 0278 6AE0      		ldi r22,lo8(10)
+ 377 027a 70E0      		ldi r23,hi8(10)
+ 378 027c 0E94 0000 		call OSQCreate
+ 379 0280 9093 0000 		sts (myq)+1,r25
+ 380 0284 8093 0000 		sts myq,r24
+ 381 0288 1092 9800 		sts 152,__zero_reg__
+ 382 028c 87E6      		ldi r24,lo8(103)
+ 383 028e 8093 9900 		sts 153,r24
+ 384 0292 EAE9      		ldi r30,lo8(154)
+ 385 0294 F0E0      		ldi r31,hi8(154)
+ 386 0296 8081      		ld r24,Z
+ 387 0298 8861      		ori r24,lo8(24)
+ 388 029a 8083      		st Z,r24
+ 389 029c 8FEF      		ldi r24,lo8(-1)
+ 390 029e 84BB      		out 52-32,r24
+ 391 02a0 0E94 0000 		call OSStart
+ 392               	/* epilogue start */
+ 393 02a4 0895      		ret
+ 394               		.size	main, .-main
+ 395               		.data
+ 396               	.LC10:
+ 397 008f 2564 00   		.string	"%d"
+ 398               		.text
+ 399               	.global	u1txnum
+ 400               		.type	u1txnum, @function
+ 401               	u1txnum:
+ 402 02a6 CF93      		push r28
+ 403 02a8 DF93      		push r29
+ 404               	/* prologue: function */
+ 405               	/* frame size = 0 */
+ 406 02aa 00D0      		rcall .
+ 407 02ac 00D0      		rcall .
+ 408 02ae 00D0      		rcall .
+ 409 02b0 EDB7      		in r30,__SP_L__
+ 410 02b2 FEB7      		in r31,__SP_H__
+ 411 02b4 3196      		adiw r30,1
+ 412 02b6 C0E0      		ldi r28,lo8(buffer)
+ 413 02b8 D0E0      		ldi r29,hi8(buffer)
+ 414 02ba ADB7      		in r26,__SP_L__
+ 415 02bc BEB7      		in r27,__SP_H__
+ 416 02be 1296      		adiw r26,1+1
+ 417 02c0 DC93      		st X,r29
+ 418 02c2 CE93      		st -X,r28
+ 419 02c4 1197      		sbiw r26,1
+ 420 02c6 20E0      		ldi r18,lo8(.LC10)
+ 421 02c8 30E0      		ldi r19,hi8(.LC10)
+ 422 02ca 3383      		std Z+3,r19
+ 423 02cc 2283      		std Z+2,r18
+ 424 02ce 9583      		std Z+5,r25
+ 425 02d0 8483      		std Z+4,r24
+ 426 02d2 0E94 0000 		call sprintf
+ 427 02d6 8091 0000 		lds r24,buffer
+ 428 02da 2DB7      		in r18,__SP_L__
+ 429 02dc 3EB7      		in r19,__SP_H__
+ 430 02de 2A5F      		subi r18,lo8(-(6))
+ 431 02e0 3F4F      		sbci r19,hi8(-(6))
+ 432 02e2 0FB6      		in __tmp_reg__,__SREG__
+GAS LISTING /tmp/ccu3eNYc.s 			page 9
+
+
+ 433 02e4 F894      		cli
+ 434 02e6 3EBF      		out __SP_H__,r19
+ 435 02e8 0FBE      		out __SREG__,__tmp_reg__
+ 436 02ea 2DBF      		out __SP_L__,r18
+ 437 02ec 8823      		tst r24
+ 438 02ee 01F0      		breq .L69
+ 439 02f0 FE01      		movw r30,r28
+ 440               	.L68:
+ 441 02f2 8093 9C00 		sts 156,r24
+ 442               	.L67:
+ 443 02f6 8091 9B00 		lds r24,155
+ 444 02fa 85FF      		sbrs r24,5
+ 445 02fc 00C0      		rjmp .L67
+ 446 02fe 3196      		adiw r30,1
+ 447 0300 8081      		ld r24,Z
+ 448 0302 8823      		tst r24
+ 449 0304 01F4      		brne .L68
+ 450               	.L69:
+ 451               	/* epilogue start */
+ 452 0306 DF91      		pop r29
+ 453 0308 CF91      		pop r28
+ 454 030a 0895      		ret
+ 455               		.size	u1txnum, .-u1txnum
+ 456               	.global	count
+ 457               	.global	count
+ 458               		.section .bss
+ 459               		.type	count, @object
+ 460               		.size	count, 1
+ 461               	count:
+ 462 0000 00        		.skip 1,0
+ 463               		.comm buffer,20,1
+ 464               		.comm task1_stack,256,1
+ 465               		.comm task2_stack,256,1
+ 466               		.comm mymutex,2,1
+ 467               		.comm myq,2,1
+ 468               		.comm err,1,1
+ 469               		.comm qmsg,10,1
+GAS LISTING /tmp/ccu3eNYc.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 msgqdiff.c
+     /tmp/ccu3eNYc.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccu3eNYc.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccu3eNYc.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccu3eNYc.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccu3eNYc.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccu3eNYc.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccu3eNYc.s:13     .text:00000000 u1init
+     /tmp/ccu3eNYc.s:29     .text:00000016 u1tx
+     /tmp/ccu3eNYc.s:42     .text:00000024 u1rx
+     /tmp/ccu3eNYc.s:55     .text:00000032 u1txstr
+     /tmp/ccu3eNYc.s:77     .text:00000050 inittimer
+     /tmp/ccu3eNYc.s:98     .text:0000005c task2
+                            *COM*:00000002 mymutex
+                            *COM*:00000002 myq
+     /tmp/ccu3eNYc.s:219    .text:00000130 task1
+                            *COM*:00000001 err
+     /tmp/ccu3eNYc.s:461    .bss:00000000 count
+     /tmp/ccu3eNYc.s:348    .text:0000023a main
+                            *COM*:00000100 task1_stack
+                            *COM*:00000100 task2_stack
+                            *COM*:0000000a qmsg
+     /tmp/ccu3eNYc.s:401    .text:000002a6 u1txnum
+                            *COM*:00000014 buffer
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+OSMutexPend
+OSQPend
+OSMutexPost
+OSTimeDly
+OSQPost
+OSInit
+OSTaskCreate
+OSMutexCreate
+OSQCreate
+OSStart
+sprintf

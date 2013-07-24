@@ -1,0 +1,412 @@
+GAS LISTING /tmp/ccrry8rT.s 			page 1
+
+
+   1               		.file	"mutex.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	u1init
+  12               		.type	u1init, @function
+  13               	u1init:
+  14               	/* prologue: function */
+  15               	/* frame size = 0 */
+  16 0000 1092 9800 		sts 152,__zero_reg__
+  17 0004 87E6      		ldi r24,lo8(103)
+  18 0006 8093 9900 		sts 153,r24
+  19 000a EAE9      		ldi r30,lo8(154)
+  20 000c F0E0      		ldi r31,hi8(154)
+  21 000e 8081      		ld r24,Z
+  22 0010 8861      		ori r24,lo8(24)
+  23 0012 8083      		st Z,r24
+  24               	/* epilogue start */
+  25 0014 0895      		ret
+  26               		.size	u1init, .-u1init
+  27               	.global	u1tx
+  28               		.type	u1tx, @function
+  29               	u1tx:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 0016 8093 9C00 		sts 156,r24
+  33               	.L4:
+  34 001a 8091 9B00 		lds r24,155
+  35 001e 85FF      		sbrs r24,5
+  36 0020 00C0      		rjmp .L4
+  37               	/* epilogue start */
+  38 0022 0895      		ret
+  39               		.size	u1tx, .-u1tx
+  40               	.global	u1rx
+  41               		.type	u1rx, @function
+  42               	u1rx:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	.L9:
+  46 0024 8091 9B00 		lds r24,155
+  47 0028 87FF      		sbrs r24,7
+  48 002a 00C0      		rjmp .L9
+  49 002c 8091 9C00 		lds r24,156
+  50               	/* epilogue start */
+  51 0030 0895      		ret
+  52               		.size	u1rx, .-u1rx
+  53               	.global	u1txstr
+  54               		.type	u1txstr, @function
+  55               	u1txstr:
+  56               	/* prologue: function */
+  57               	/* frame size = 0 */
+GAS LISTING /tmp/ccrry8rT.s 			page 2
+
+
+  58 0032 FC01      		movw r30,r24
+  59 0034 8081      		ld r24,Z
+  60 0036 8823      		tst r24
+  61 0038 01F0      		breq .L16
+  62               	.L17:
+  63 003a 8093 9C00 		sts 156,r24
+  64               	.L14:
+  65 003e 8091 9B00 		lds r24,155
+  66 0042 85FF      		sbrs r24,5
+  67 0044 00C0      		rjmp .L14
+  68 0046 3196      		adiw r30,1
+  69 0048 8081      		ld r24,Z
+  70 004a 8823      		tst r24
+  71 004c 01F4      		brne .L17
+  72               	.L16:
+  73 004e 0895      		ret
+  74               		.size	u1txstr, .-u1txstr
+  75               	.global	inittimer
+  76               		.type	inittimer, @function
+  77               	inittimer:
+  78               	/* prologue: function */
+  79               	/* frame size = 0 */
+  80 0050 12BE      		out 82-32,__zero_reg__
+  81 0052 87E0      		ldi r24,lo8(7)
+  82 0054 83BF      		out 83-32,r24
+  83 0056 81E0      		ldi r24,lo8(1)
+  84 0058 87BF      		out 87-32,r24
+  85               	/* epilogue start */
+  86 005a 0895      		ret
+  87               		.size	inittimer, .-inittimer
+  88               		.data
+  89               	.LC0:
+  90 0000 0A54 6173 		.string	"\nTask3"
+  90      6B33 00
+  91               		.text
+  92               	.global	task3
+  93               		.type	task3, @function
+  94               	task3:
+  95               	/* prologue: function */
+  96               	/* frame size = 0 */
+  97               	.L26:
+  98 005c 8091 0000 		lds r24,mymutex
+  99 0060 9091 0000 		lds r25,(mymutex)+1
+ 100 0064 60E0      		ldi r22,lo8(0)
+ 101 0066 70E0      		ldi r23,hi8(0)
+ 102 0068 40E0      		ldi r20,lo8(err)
+ 103 006a 50E0      		ldi r21,hi8(err)
+ 104 006c 0E94 0000 		call OSMutexPend
+ 105 0070 8091 0000 		lds r24,err
+ 106 0074 8823      		tst r24
+ 107 0076 01F4      		brne .L23
+ 108 0078 E0E0      		ldi r30,lo8(.LC0)
+ 109 007a F0E0      		ldi r31,hi8(.LC0)
+ 110 007c 8AE0      		ldi r24,lo8(10)
+ 111               	.L25:
+ 112 007e 8093 9C00 		sts 156,r24
+ 113               	.L24:
+GAS LISTING /tmp/ccrry8rT.s 			page 3
+
+
+ 114 0082 8091 9B00 		lds r24,155
+ 115 0086 85FF      		sbrs r24,5
+ 116 0088 00C0      		rjmp .L24
+ 117 008a 3196      		adiw r30,1
+ 118 008c 8081      		ld r24,Z
+ 119 008e 8823      		tst r24
+ 120 0090 01F4      		brne .L25
+ 121               	.L23:
+ 122 0092 8091 0000 		lds r24,mymutex
+ 123 0096 9091 0000 		lds r25,(mymutex)+1
+ 124 009a 0E94 0000 		call OSMutexPost
+ 125 009e 8AE5      		ldi r24,lo8(90)
+ 126 00a0 90E0      		ldi r25,hi8(90)
+ 127 00a2 0E94 0000 		call OSTimeDly
+ 128 00a6 00C0      		rjmp .L26
+ 129               		.size	task3, .-task3
+ 130               		.data
+ 131               	.LC1:
+ 132 0007 0A09 7461 		.string	"\n\ttask2"
+ 132      736B 3200 
+ 133               		.text
+ 134               	.global	task2
+ 135               		.type	task2, @function
+ 136               	task2:
+ 137               	/* prologue: function */
+ 138               	/* frame size = 0 */
+ 139 00a8 84E1      		ldi r24,lo8(20)
+ 140 00aa 90E0      		ldi r25,hi8(20)
+ 141 00ac 0E94 0000 		call OSTimeDly
+ 142               	.L33:
+ 143 00b0 15BA      		out 53-32,__zero_reg__
+ 144 00b2 E0E0      		ldi r30,lo8(.LC1)
+ 145 00b4 F0E0      		ldi r31,hi8(.LC1)
+ 146 00b6 8AE0      		ldi r24,lo8(10)
+ 147               	.L32:
+ 148 00b8 8093 9C00 		sts 156,r24
+ 149               	.L31:
+ 150 00bc 8091 9B00 		lds r24,155
+ 151 00c0 85FF      		sbrs r24,5
+ 152 00c2 00C0      		rjmp .L31
+ 153 00c4 3196      		adiw r30,1
+ 154 00c6 8081      		ld r24,Z
+ 155 00c8 8823      		tst r24
+ 156 00ca 01F0      		breq .L33
+ 157 00cc 00C0      		rjmp .L32
+ 158               		.size	task2, .-task2
+ 159               		.data
+ 160               	.LC2:
+ 161 000f 0A54 6173 		.string	"\nTask1"
+ 161      6B31 00
+ 162               		.text
+ 163               	.global	task1
+ 164               		.type	task1, @function
+ 165               	task1:
+ 166 00ce 1F93      		push r17
+ 167               	/* prologue: function */
+ 168               	/* frame size = 0 */
+GAS LISTING /tmp/ccrry8rT.s 			page 4
+
+
+ 169 00d0 12BE      		out 82-32,__zero_reg__
+ 170 00d2 87E0      		ldi r24,lo8(7)
+ 171 00d4 83BF      		out 83-32,r24
+ 172 00d6 81E0      		ldi r24,lo8(1)
+ 173 00d8 87BF      		out 87-32,r24
+ 174 00da 1FEF      		ldi r17,lo8(-1)
+ 175               	.L41:
+ 176 00dc 8FE0      		ldi r24,lo8(15)
+ 177 00de 90E0      		ldi r25,hi8(15)
+ 178 00e0 0E94 0000 		call OSTimeDly
+ 179 00e4 8091 0000 		lds r24,mymutex
+ 180 00e8 9091 0000 		lds r25,(mymutex)+1
+ 181 00ec 60E0      		ldi r22,lo8(0)
+ 182 00ee 70E0      		ldi r23,hi8(0)
+ 183 00f0 40E0      		ldi r20,lo8(err)
+ 184 00f2 50E0      		ldi r21,hi8(err)
+ 185 00f4 0E94 0000 		call OSMutexPend
+ 186 00f8 8091 0000 		lds r24,err
+ 187 00fc 8823      		tst r24
+ 188 00fe 01F4      		brne .L38
+ 189 0100 E0E0      		ldi r30,lo8(.LC2)
+ 190 0102 F0E0      		ldi r31,hi8(.LC2)
+ 191 0104 8AE0      		ldi r24,lo8(10)
+ 192               	.L40:
+ 193 0106 8093 9C00 		sts 156,r24
+ 194               	.L39:
+ 195 010a 8091 9B00 		lds r24,155
+ 196 010e 85FF      		sbrs r24,5
+ 197 0110 00C0      		rjmp .L39
+ 198 0112 3196      		adiw r30,1
+ 199 0114 8081      		ld r24,Z
+ 200 0116 8823      		tst r24
+ 201 0118 01F4      		brne .L40
+ 202 011a 85E0      		ldi r24,lo8(5)
+ 203 011c 90E0      		ldi r25,hi8(5)
+ 204 011e 0E94 0000 		call OSTimeDly
+ 205 0122 15BB      		out 53-32,r17
+ 206               	.L38:
+ 207 0124 81E0      		ldi r24,lo8(1)
+ 208 0126 90E0      		ldi r25,hi8(1)
+ 209 0128 0E94 0000 		call OSTimeDly
+ 210 012c 8091 0000 		lds r24,mymutex
+ 211 0130 9091 0000 		lds r25,(mymutex)+1
+ 212 0134 0E94 0000 		call OSMutexPost
+ 213 0138 82E0      		ldi r24,lo8(2)
+ 214 013a 90E0      		ldi r25,hi8(2)
+ 215 013c 0E94 0000 		call OSTimeDly
+ 216 0140 00C0      		rjmp .L41
+ 217               		.size	task1, .-task1
+ 218               		.data
+ 219               	.LC3:
+ 220 0016 0A20 00   		.string	"\n "
+ 221               		.text
+ 222               	.global	main
+ 223               		.type	main, @function
+ 224               	main:
+ 225               	/* prologue: function */
+GAS LISTING /tmp/ccrry8rT.s 			page 5
+
+
+ 226               	/* frame size = 0 */
+ 227 0142 0E94 0000 		call OSInit
+ 228 0146 80E0      		ldi r24,lo8(gs(task1))
+ 229 0148 90E0      		ldi r25,hi8(gs(task1))
+ 230 014a 60E0      		ldi r22,lo8(0)
+ 231 014c 70E0      		ldi r23,hi8(0)
+ 232 014e 40E0      		ldi r20,lo8(task1_stack+255)
+ 233 0150 50E0      		ldi r21,hi8(task1_stack+255)
+ 234 0152 25E0      		ldi r18,lo8(5)
+ 235 0154 0E94 0000 		call OSTaskCreate
+ 236 0158 80E0      		ldi r24,lo8(gs(task2))
+ 237 015a 90E0      		ldi r25,hi8(gs(task2))
+ 238 015c 60E0      		ldi r22,lo8(0)
+ 239 015e 70E0      		ldi r23,hi8(0)
+ 240 0160 40E0      		ldi r20,lo8(task2_stack+255)
+ 241 0162 50E0      		ldi r21,hi8(task2_stack+255)
+ 242 0164 26E0      		ldi r18,lo8(6)
+ 243 0166 0E94 0000 		call OSTaskCreate
+ 244 016a 80E0      		ldi r24,lo8(gs(task3))
+ 245 016c 90E0      		ldi r25,hi8(gs(task3))
+ 246 016e 60E0      		ldi r22,lo8(0)
+ 247 0170 70E0      		ldi r23,hi8(0)
+ 248 0172 40E0      		ldi r20,lo8(task3_stack+255)
+ 249 0174 50E0      		ldi r21,hi8(task3_stack+255)
+ 250 0176 27E0      		ldi r18,lo8(7)
+ 251 0178 0E94 0000 		call OSTaskCreate
+ 252 017c 84E0      		ldi r24,lo8(4)
+ 253 017e 60E0      		ldi r22,lo8(err)
+ 254 0180 70E0      		ldi r23,hi8(err)
+ 255 0182 0E94 0000 		call OSMutexCreate
+ 256 0186 9093 0000 		sts (mymutex)+1,r25
+ 257 018a 8093 0000 		sts mymutex,r24
+ 258 018e 1092 9800 		sts 152,__zero_reg__
+ 259 0192 87E6      		ldi r24,lo8(103)
+ 260 0194 8093 9900 		sts 153,r24
+ 261 0198 8091 9A00 		lds r24,154
+ 262 019c 8861      		ori r24,lo8(24)
+ 263 019e 8093 9A00 		sts 154,r24
+ 264 01a2 8FEF      		ldi r24,lo8(-1)
+ 265 01a4 84BB      		out 52-32,r24
+ 266 01a6 0E94 0000 		call OSStart
+ 267 01aa E0E0      		ldi r30,lo8(.LC3)
+ 268 01ac F0E0      		ldi r31,hi8(.LC3)
+ 269 01ae 8AE0      		ldi r24,lo8(10)
+ 270               	.L47:
+ 271 01b0 8093 9C00 		sts 156,r24
+ 272               	.L46:
+ 273 01b4 8091 9B00 		lds r24,155
+ 274 01b8 85FF      		sbrs r24,5
+ 275 01ba 00C0      		rjmp .L46
+ 276 01bc 3196      		adiw r30,1
+ 277 01be 8081      		ld r24,Z
+ 278 01c0 8823      		tst r24
+ 279 01c2 01F4      		brne .L47
+ 280               	/* epilogue start */
+ 281 01c4 0895      		ret
+ 282               		.size	main, .-main
+GAS LISTING /tmp/ccrry8rT.s 			page 6
+
+
+ 283               		.data
+ 284               	.LC4:
+ 285 0019 2564 00   		.string	"%d"
+ 286               		.text
+ 287               	.global	u1txnum
+ 288               		.type	u1txnum, @function
+ 289               	u1txnum:
+ 290 01c6 CF93      		push r28
+ 291 01c8 DF93      		push r29
+ 292               	/* prologue: function */
+ 293               	/* frame size = 0 */
+ 294 01ca 00D0      		rcall .
+ 295 01cc 00D0      		rcall .
+ 296 01ce 00D0      		rcall .
+ 297 01d0 EDB7      		in r30,__SP_L__
+ 298 01d2 FEB7      		in r31,__SP_H__
+ 299 01d4 3196      		adiw r30,1
+ 300 01d6 C0E0      		ldi r28,lo8(buffer)
+ 301 01d8 D0E0      		ldi r29,hi8(buffer)
+ 302 01da ADB7      		in r26,__SP_L__
+ 303 01dc BEB7      		in r27,__SP_H__
+ 304 01de 1296      		adiw r26,1+1
+ 305 01e0 DC93      		st X,r29
+ 306 01e2 CE93      		st -X,r28
+ 307 01e4 1197      		sbiw r26,1
+ 308 01e6 20E0      		ldi r18,lo8(.LC4)
+ 309 01e8 30E0      		ldi r19,hi8(.LC4)
+ 310 01ea 3383      		std Z+3,r19
+ 311 01ec 2283      		std Z+2,r18
+ 312 01ee 9583      		std Z+5,r25
+ 313 01f0 8483      		std Z+4,r24
+ 314 01f2 0E94 0000 		call sprintf
+ 315 01f6 8091 0000 		lds r24,buffer
+ 316 01fa 2DB7      		in r18,__SP_L__
+ 317 01fc 3EB7      		in r19,__SP_H__
+ 318 01fe 2A5F      		subi r18,lo8(-(6))
+ 319 0200 3F4F      		sbci r19,hi8(-(6))
+ 320 0202 0FB6      		in __tmp_reg__,__SREG__
+ 321 0204 F894      		cli
+ 322 0206 3EBF      		out __SP_H__,r19
+ 323 0208 0FBE      		out __SREG__,__tmp_reg__
+ 324 020a 2DBF      		out __SP_L__,r18
+ 325 020c 8823      		tst r24
+ 326 020e 01F0      		breq .L55
+ 327 0210 FE01      		movw r30,r28
+ 328               	.L54:
+ 329 0212 8093 9C00 		sts 156,r24
+ 330               	.L53:
+ 331 0216 8091 9B00 		lds r24,155
+ 332 021a 85FF      		sbrs r24,5
+ 333 021c 00C0      		rjmp .L53
+ 334 021e 3196      		adiw r30,1
+ 335 0220 8081      		ld r24,Z
+ 336 0222 8823      		tst r24
+ 337 0224 01F4      		brne .L54
+ 338               	.L55:
+ 339               	/* epilogue start */
+GAS LISTING /tmp/ccrry8rT.s 			page 7
+
+
+ 340 0226 DF91      		pop r29
+ 341 0228 CF91      		pop r28
+ 342 022a 0895      		ret
+ 343               		.size	u1txnum, .-u1txnum
+ 344               		.comm buffer,20,1
+ 345               		.comm task1_stack,256,1
+ 346               		.comm task2_stack,256,1
+ 347               		.comm task3_stack,256,1
+ 348               		.comm mymutex,2,1
+ 349               		.comm err,1,1
+GAS LISTING /tmp/ccrry8rT.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 mutex.c
+     /tmp/ccrry8rT.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccrry8rT.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccrry8rT.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccrry8rT.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccrry8rT.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccrry8rT.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccrry8rT.s:13     .text:00000000 u1init
+     /tmp/ccrry8rT.s:29     .text:00000016 u1tx
+     /tmp/ccrry8rT.s:42     .text:00000024 u1rx
+     /tmp/ccrry8rT.s:55     .text:00000032 u1txstr
+     /tmp/ccrry8rT.s:77     .text:00000050 inittimer
+     /tmp/ccrry8rT.s:94     .text:0000005c task3
+                            *COM*:00000002 mymutex
+                            *COM*:00000001 err
+     /tmp/ccrry8rT.s:136    .text:000000a8 task2
+     /tmp/ccrry8rT.s:165    .text:000000ce task1
+     /tmp/ccrry8rT.s:224    .text:00000142 main
+                            *COM*:00000100 task1_stack
+                            *COM*:00000100 task2_stack
+                            *COM*:00000100 task3_stack
+     /tmp/ccrry8rT.s:289    .text:000001c6 u1txnum
+                            *COM*:00000014 buffer
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+OSMutexPend
+OSMutexPost
+OSTimeDly
+OSInit
+OSTaskCreate
+OSMutexCreate
+OSStart
+sprintf

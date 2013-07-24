@@ -1,0 +1,688 @@
+GAS LISTING /tmp/ccr2l3M7.s 			page 1
+
+
+   1               		.file	"mem.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	u1init
+  12               		.type	u1init, @function
+  13               	u1init:
+  14               	/* prologue: function */
+  15               	/* frame size = 0 */
+  16 0000 1092 9800 		sts 152,__zero_reg__
+  17 0004 87E6      		ldi r24,lo8(103)
+  18 0006 8093 9900 		sts 153,r24
+  19 000a EAE9      		ldi r30,lo8(154)
+  20 000c F0E0      		ldi r31,hi8(154)
+  21 000e 8081      		ld r24,Z
+  22 0010 8861      		ori r24,lo8(24)
+  23 0012 8083      		st Z,r24
+  24               	/* epilogue start */
+  25 0014 0895      		ret
+  26               		.size	u1init, .-u1init
+  27               	.global	u1tx
+  28               		.type	u1tx, @function
+  29               	u1tx:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 0016 8093 9C00 		sts 156,r24
+  33               	.L4:
+  34 001a 8091 9B00 		lds r24,155
+  35 001e 85FF      		sbrs r24,5
+  36 0020 00C0      		rjmp .L4
+  37               	/* epilogue start */
+  38 0022 0895      		ret
+  39               		.size	u1tx, .-u1tx
+  40               	.global	u1rx
+  41               		.type	u1rx, @function
+  42               	u1rx:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	.L9:
+  46 0024 8091 9B00 		lds r24,155
+  47 0028 87FF      		sbrs r24,7
+  48 002a 00C0      		rjmp .L9
+  49 002c 8091 9C00 		lds r24,156
+  50               	/* epilogue start */
+  51 0030 0895      		ret
+  52               		.size	u1rx, .-u1rx
+  53               	.global	u1txstr
+  54               		.type	u1txstr, @function
+  55               	u1txstr:
+  56               	/* prologue: function */
+  57               	/* frame size = 0 */
+GAS LISTING /tmp/ccr2l3M7.s 			page 2
+
+
+  58 0032 FC01      		movw r30,r24
+  59 0034 8081      		ld r24,Z
+  60 0036 8823      		tst r24
+  61 0038 01F0      		breq .L16
+  62               	.L17:
+  63 003a 8093 9C00 		sts 156,r24
+  64               	.L14:
+  65 003e 8091 9B00 		lds r24,155
+  66 0042 85FF      		sbrs r24,5
+  67 0044 00C0      		rjmp .L14
+  68 0046 3196      		adiw r30,1
+  69 0048 8081      		ld r24,Z
+  70 004a 8823      		tst r24
+  71 004c 01F4      		brne .L17
+  72               	.L16:
+  73 004e 0895      		ret
+  74               		.size	u1txstr, .-u1txstr
+  75               	.global	inittimer
+  76               		.type	inittimer, @function
+  77               	inittimer:
+  78               	/* prologue: function */
+  79               	/* frame size = 0 */
+  80 0050 12BE      		out 82-32,__zero_reg__
+  81 0052 87E0      		ldi r24,lo8(7)
+  82 0054 83BF      		out 83-32,r24
+  83 0056 81E0      		ldi r24,lo8(1)
+  84 0058 87BF      		out 87-32,r24
+  85               	/* epilogue start */
+  86 005a 0895      		ret
+  87               		.size	inittimer, .-inittimer
+  88               		.data
+  89               	.LC0:
+  90 0000 2564 00   		.string	"%d"
+  91               		.text
+  92               	.global	u1txnum
+  93               		.type	u1txnum, @function
+  94               	u1txnum:
+  95 005c CF93      		push r28
+  96 005e DF93      		push r29
+  97               	/* prologue: function */
+  98               	/* frame size = 0 */
+  99 0060 00D0      		rcall .
+ 100 0062 00D0      		rcall .
+ 101 0064 00D0      		rcall .
+ 102 0066 EDB7      		in r30,__SP_L__
+ 103 0068 FEB7      		in r31,__SP_H__
+ 104 006a 3196      		adiw r30,1
+ 105 006c C0E0      		ldi r28,lo8(buffer)
+ 106 006e D0E0      		ldi r29,hi8(buffer)
+ 107 0070 ADB7      		in r26,__SP_L__
+ 108 0072 BEB7      		in r27,__SP_H__
+ 109 0074 1296      		adiw r26,1+1
+ 110 0076 DC93      		st X,r29
+ 111 0078 CE93      		st -X,r28
+ 112 007a 1197      		sbiw r26,1
+ 113 007c 20E0      		ldi r18,lo8(.LC0)
+ 114 007e 30E0      		ldi r19,hi8(.LC0)
+GAS LISTING /tmp/ccr2l3M7.s 			page 3
+
+
+ 115 0080 3383      		std Z+3,r19
+ 116 0082 2283      		std Z+2,r18
+ 117 0084 9583      		std Z+5,r25
+ 118 0086 8483      		std Z+4,r24
+ 119 0088 0E94 0000 		call sprintf
+ 120 008c 8091 0000 		lds r24,buffer
+ 121 0090 2DB7      		in r18,__SP_L__
+ 122 0092 3EB7      		in r19,__SP_H__
+ 123 0094 2A5F      		subi r18,lo8(-(6))
+ 124 0096 3F4F      		sbci r19,hi8(-(6))
+ 125 0098 0FB6      		in __tmp_reg__,__SREG__
+ 126 009a F894      		cli
+ 127 009c 3EBF      		out __SP_H__,r19
+ 128 009e 0FBE      		out __SREG__,__tmp_reg__
+ 129 00a0 2DBF      		out __SP_L__,r18
+ 130 00a2 8823      		tst r24
+ 131 00a4 01F0      		breq .L26
+ 132 00a6 FE01      		movw r30,r28
+ 133               	.L25:
+ 134 00a8 8093 9C00 		sts 156,r24
+ 135               	.L24:
+ 136 00ac 8091 9B00 		lds r24,155
+ 137 00b0 85FF      		sbrs r24,5
+ 138 00b2 00C0      		rjmp .L24
+ 139 00b4 3196      		adiw r30,1
+ 140 00b6 8081      		ld r24,Z
+ 141 00b8 8823      		tst r24
+ 142 00ba 01F4      		brne .L25
+ 143               	.L26:
+ 144               	/* epilogue start */
+ 145 00bc DF91      		pop r29
+ 146 00be CF91      		pop r28
+ 147 00c0 0895      		ret
+ 148               		.size	u1txnum, .-u1txnum
+ 149               		.data
+ 150               	.LC1:
+ 151 0003 0A0D 456E 		.string	"\n\rEntered into task 2"
+ 151      7465 7265 
+ 151      6420 696E 
+ 151      746F 2074 
+ 151      6173 6B20 
+ 152               	.LC2:
+ 153 0019 0A4C 6561 		.string	"\nLeaving task 2"
+ 153      7669 6E67 
+ 153      2074 6173 
+ 153      6B20 3200 
+ 154               	.LC3:
+ 155 0029 0A4D 656D 		.string	"\nMemory T1 %p"
+ 155      6F72 7920 
+ 155      5431 2025 
+ 155      7000 
+ 156               	.LC4:
+ 157 0037 0A44 6174 		.string	"\nData read from memory block = "
+ 157      6120 7265 
+ 157      6164 2066 
+ 157      726F 6D20 
+ 157      6D65 6D6F 
+GAS LISTING /tmp/ccr2l3M7.s 			page 4
+
+
+ 158               	.LC5:
+ 159 0057 0A4D 656D 		.string	"\nMemory removed"
+ 159      6F72 7920 
+ 159      7265 6D6F 
+ 159      7665 6400 
+ 160               		.text
+ 161               	.global	task2
+ 162               		.type	task2, @function
+ 163               	task2:
+ 164 00c2 DF92      		push r13
+ 165 00c4 EF92      		push r14
+ 166 00c6 FF92      		push r15
+ 167 00c8 0F93      		push r16
+ 168 00ca 1F93      		push r17
+ 169 00cc DF93      		push r29
+ 170 00ce CF93      		push r28
+ 171 00d0 CDB7      		in r28,__SP_L__
+ 172 00d2 DEB7      		in r29,__SP_H__
+ 173 00d4 2F97      		sbiw r28,15
+ 174 00d6 0FB6      		in __tmp_reg__,__SREG__
+ 175 00d8 F894      		cli
+ 176 00da DEBF      		out __SP_H__,r29
+ 177 00dc 0FBE      		out __SREG__,__tmp_reg__
+ 178 00de CDBF      		out __SP_L__,r28
+ 179               	/* prologue: function */
+ 180               	/* frame size = 15 */
+ 181 00e0 8E01      		movw r16,r28
+ 182 00e2 0F5F      		subi r16,lo8(-(1))
+ 183 00e4 1F4F      		sbci r17,hi8(-(1))
+ 184 00e6 90E0      		ldi r25,lo8(.LC3)
+ 185 00e8 E92E      		mov r14,r25
+ 186 00ea 90E0      		ldi r25,hi8(.LC3)
+ 187 00ec F92E      		mov r15,r25
+ 188 00ee 85E5      		ldi r24,lo8(85)
+ 189 00f0 D82E      		mov r13,r24
+ 190               	.L46:
+ 191 00f2 D5BA      		out 53-32,r13
+ 192 00f4 E0E0      		ldi r30,lo8(.LC1)
+ 193 00f6 F0E0      		ldi r31,hi8(.LC1)
+ 194 00f8 8AE0      		ldi r24,lo8(10)
+ 195               	.L31:
+ 196 00fa 8093 9C00 		sts 156,r24
+ 197               	.L30:
+ 198 00fe 8091 9B00 		lds r24,155
+ 199 0102 85FF      		sbrs r24,5
+ 200 0104 00C0      		rjmp .L30
+ 201 0106 3196      		adiw r30,1
+ 202 0108 8081      		ld r24,Z
+ 203 010a 8823      		tst r24
+ 204 010c 01F4      		brne .L31
+ 205 010e 8799      		sbic 48-32,7
+ 206 0110 00C0      		rjmp .L42
+ 207 0112 00D0      		rcall .
+ 208 0114 00D0      		rcall .
+ 209 0116 00D0      		rcall .
+ 210 0118 EDB7      		in r30,__SP_L__
+ 211 011a FEB7      		in r31,__SP_H__
+GAS LISTING /tmp/ccr2l3M7.s 			page 5
+
+
+ 212 011c 3196      		adiw r30,1
+ 213 011e ADB7      		in r26,__SP_L__
+ 214 0120 BEB7      		in r27,__SP_H__
+ 215 0122 1296      		adiw r26,1+1
+ 216 0124 1C93      		st X,r17
+ 217 0126 0E93      		st -X,r16
+ 218 0128 1197      		sbiw r26,1
+ 219 012a F382      		std Z+3,r15
+ 220 012c E282      		std Z+2,r14
+ 221 012e 8091 0000 		lds r24,ptr1
+ 222 0132 9091 0000 		lds r25,(ptr1)+1
+ 223 0136 9583      		std Z+5,r25
+ 224 0138 8483      		std Z+4,r24
+ 225 013a 0E94 0000 		call sprintf
+ 226 013e 8981      		ldd r24,Y+1
+ 227 0140 2DB7      		in r18,__SP_L__
+ 228 0142 3EB7      		in r19,__SP_H__
+ 229 0144 2A5F      		subi r18,lo8(-(6))
+ 230 0146 3F4F      		sbci r19,hi8(-(6))
+ 231 0148 0FB6      		in __tmp_reg__,__SREG__
+ 232 014a F894      		cli
+ 233 014c 3EBF      		out __SP_H__,r19
+ 234 014e 0FBE      		out __SREG__,__tmp_reg__
+ 235 0150 2DBF      		out __SP_L__,r18
+ 236 0152 8823      		tst r24
+ 237 0154 01F0      		breq .L34
+ 238 0156 F801      		movw r30,r16
+ 239               	.L36:
+ 240 0158 8093 9C00 		sts 156,r24
+ 241               	.L35:
+ 242 015c 8091 9B00 		lds r24,155
+ 243 0160 85FF      		sbrs r24,5
+ 244 0162 00C0      		rjmp .L35
+ 245 0164 3196      		adiw r30,1
+ 246 0166 8081      		ld r24,Z
+ 247 0168 8823      		tst r24
+ 248 016a 01F4      		brne .L36
+ 249               	.L34:
+ 250 016c E0E0      		ldi r30,lo8(.LC4)
+ 251 016e F0E0      		ldi r31,hi8(.LC4)
+ 252 0170 8AE0      		ldi r24,lo8(10)
+ 253               	.L38:
+ 254 0172 8093 9C00 		sts 156,r24
+ 255               	.L37:
+ 256 0176 8091 9B00 		lds r24,155
+ 257 017a 85FF      		sbrs r24,5
+ 258 017c 00C0      		rjmp .L37
+ 259 017e 3196      		adiw r30,1
+ 260 0180 8081      		ld r24,Z
+ 261 0182 8823      		tst r24
+ 262 0184 01F4      		brne .L38
+ 263 0186 A091 0000 		lds r26,ptr1
+ 264 018a B091 0000 		lds r27,(ptr1)+1
+ 265 018e 8C91      		ld r24,X
+ 266 0190 8823      		tst r24
+ 267 0192 01F0      		breq .L39
+ 268 0194 FD01      		movw r30,r26
+GAS LISTING /tmp/ccr2l3M7.s 			page 6
+
+
+ 269               	.L41:
+ 270 0196 8093 9C00 		sts 156,r24
+ 271               	.L40:
+ 272 019a 8091 9B00 		lds r24,155
+ 273 019e 85FF      		sbrs r24,5
+ 274 01a0 00C0      		rjmp .L40
+ 275 01a2 3196      		adiw r30,1
+ 276 01a4 8081      		ld r24,Z
+ 277 01a6 8823      		tst r24
+ 278 01a8 01F4      		brne .L41
+ 279               	.L39:
+ 280 01aa 8091 0000 		lds r24,memory
+ 281 01ae 9091 0000 		lds r25,(memory)+1
+ 282 01b2 BD01      		movw r22,r26
+ 283 01b4 0E94 0000 		call OSMemPut
+ 284 01b8 8823      		tst r24
+ 285 01ba 01F4      		brne .L42
+ 286 01bc E0E0      		ldi r30,lo8(.LC5)
+ 287 01be F0E0      		ldi r31,hi8(.LC5)
+ 288 01c0 8AE0      		ldi r24,lo8(10)
+ 289               	.L44:
+ 290 01c2 8093 9C00 		sts 156,r24
+ 291               	.L43:
+ 292 01c6 8091 9B00 		lds r24,155
+ 293 01ca 85FF      		sbrs r24,5
+ 294 01cc 00C0      		rjmp .L43
+ 295 01ce 3196      		adiw r30,1
+ 296 01d0 8081      		ld r24,Z
+ 297 01d2 8823      		tst r24
+ 298 01d4 01F4      		brne .L44
+ 299               	.L42:
+ 300 01d6 E0E0      		ldi r30,lo8(.LC2)
+ 301 01d8 F0E0      		ldi r31,hi8(.LC2)
+ 302 01da 8AE0      		ldi r24,lo8(10)
+ 303               	.L33:
+ 304 01dc 8093 9C00 		sts 156,r24
+ 305               	.L45:
+ 306 01e0 8091 9B00 		lds r24,155
+ 307 01e4 85FF      		sbrs r24,5
+ 308 01e6 00C0      		rjmp .L45
+ 309 01e8 3196      		adiw r30,1
+ 310 01ea 8081      		ld r24,Z
+ 311 01ec 8823      		tst r24
+ 312 01ee 01F4      		brne .L33
+ 313 01f0 8DE3      		ldi r24,lo8(61)
+ 314 01f2 90E0      		ldi r25,hi8(61)
+ 315 01f4 0E94 0000 		call OSTimeDly
+ 316 01f8 00C0      		rjmp .L46
+ 317               		.size	task2, .-task2
+ 318               	.global	main
+ 319               		.type	main, @function
+ 320               	main:
+ 321 01fa EF92      		push r14
+ 322 01fc FF92      		push r15
+ 323 01fe 0F93      		push r16
+ 324 0200 1F93      		push r17
+ 325               	/* prologue: function */
+GAS LISTING /tmp/ccr2l3M7.s 			page 7
+
+
+ 326               	/* frame size = 0 */
+ 327 0202 0E94 0000 		call OSInit
+ 328 0206 80E0      		ldi r24,lo8(gs(task1))
+ 329 0208 90E0      		ldi r25,hi8(gs(task1))
+ 330 020a 60E0      		ldi r22,lo8(0)
+ 331 020c 70E0      		ldi r23,hi8(0)
+ 332 020e 40E0      		ldi r20,lo8(task1_stack+255)
+ 333 0210 50E0      		ldi r21,hi8(task1_stack+255)
+ 334 0212 24E0      		ldi r18,lo8(4)
+ 335 0214 0E94 0000 		call OSTaskCreate
+ 336 0218 80E0      		ldi r24,lo8(gs(task2))
+ 337 021a 90E0      		ldi r25,hi8(gs(task2))
+ 338 021c 60E0      		ldi r22,lo8(0)
+ 339 021e 70E0      		ldi r23,hi8(0)
+ 340 0220 40E0      		ldi r20,lo8(task2_stack+255)
+ 341 0222 50E0      		ldi r21,hi8(task2_stack+255)
+ 342 0224 25E0      		ldi r18,lo8(5)
+ 343 0226 0E94 0000 		call OSTaskCreate
+ 344 022a 80E0      		ldi r24,lo8(buff)
+ 345 022c 90E0      		ldi r25,hi8(buff)
+ 346 022e 42E0      		ldi r20,lo8(2)
+ 347 0230 50E0      		ldi r21,hi8(2)
+ 348 0232 60E0      		ldi r22,hlo8(2)
+ 349 0234 70E0      		ldi r23,hhi8(2)
+ 350 0236 0AE0      		ldi r16,lo8(10)
+ 351 0238 10E0      		ldi r17,hi8(10)
+ 352 023a 20E0      		ldi r18,hlo8(10)
+ 353 023c 30E0      		ldi r19,hhi8(10)
+ 354 023e E0E0      		ldi r30,lo8(errmem)
+ 355 0240 EE2E      		mov r14,r30
+ 356 0242 E0E0      		ldi r30,hi8(errmem)
+ 357 0244 FE2E      		mov r15,r30
+ 358 0246 0E94 0000 		call OSMemCreate
+ 359 024a 9093 0000 		sts (memory)+1,r25
+ 360 024e 8093 0000 		sts memory,r24
+ 361 0252 1092 9800 		sts 152,__zero_reg__
+ 362 0256 87E6      		ldi r24,lo8(103)
+ 363 0258 8093 9900 		sts 153,r24
+ 364 025c EAE9      		ldi r30,lo8(154)
+ 365 025e F0E0      		ldi r31,hi8(154)
+ 366 0260 8081      		ld r24,Z
+ 367 0262 8861      		ori r24,lo8(24)
+ 368 0264 8083      		st Z,r24
+ 369 0266 8FEF      		ldi r24,lo8(-1)
+ 370 0268 84BB      		out 52-32,r24
+ 371 026a 11BA      		out 49-32,__zero_reg__
+ 372 026c 82BB      		out 50-32,r24
+ 373 026e 0E94 0000 		call OSStart
+ 374               	/* epilogue start */
+ 375 0272 1F91      		pop r17
+ 376 0274 0F91      		pop r16
+ 377 0276 FF90      		pop r15
+ 378 0278 EF90      		pop r14
+ 379 027a 0895      		ret
+ 380               		.size	main, .-main
+ 381               		.data
+ 382               	.LC6:
+GAS LISTING /tmp/ccr2l3M7.s 			page 8
+
+
+ 383 0067 0A0D 456E 		.string	"\n\rEntered into task 1"
+ 383      7465 7265 
+ 383      6420 696E 
+ 383      746F 2074 
+ 383      6173 6B20 
+ 384               	.LC7:
+ 385 007d 0A4C 6561 		.string	"\nLeaving task 1"
+ 385      7669 6E67 
+ 385      2074 6173 
+ 385      6B20 3100 
+ 386               	.LC8:
+ 387 008d 0A42 6C6F 		.string	"\nBlock of data obtained"
+ 387      636B 206F 
+ 387      6620 6461 
+ 387      7461 206F 
+ 387      6274 6169 
+ 388               	.LC9:
+ 389 00a5 4141 4120 		.string	"AAA T1 AAA"
+ 389      5431 2041 
+ 389      4141 00
+ 390               	.LC10:
+ 391 00b0 0A4D 6573 		.string	"\nMessage stored"
+ 391      7361 6765 
+ 391      2073 746F 
+ 391      7265 6400 
+ 392               		.text
+ 393               	.global	task1
+ 394               		.type	task1, @function
+ 395               	task1:
+ 396 027c BF92      		push r11
+ 397 027e CF92      		push r12
+ 398 0280 DF92      		push r13
+ 399 0282 EF92      		push r14
+ 400 0284 FF92      		push r15
+ 401 0286 0F93      		push r16
+ 402 0288 1F93      		push r17
+ 403 028a DF93      		push r29
+ 404 028c CF93      		push r28
+ 405 028e CDB7      		in r28,__SP_L__
+ 406 0290 DEB7      		in r29,__SP_H__
+ 407 0292 6097      		sbiw r28,16
+ 408 0294 0FB6      		in __tmp_reg__,__SREG__
+ 409 0296 F894      		cli
+ 410 0298 DEBF      		out __SP_H__,r29
+ 411 029a 0FBE      		out __SREG__,__tmp_reg__
+ 412 029c CDBF      		out __SP_L__,r28
+ 413               	/* prologue: function */
+ 414               	/* frame size = 16 */
+ 415 029e 12BE      		out 82-32,__zero_reg__
+ 416 02a0 87E0      		ldi r24,lo8(7)
+ 417 02a2 83BF      		out 83-32,r24
+ 418 02a4 81E0      		ldi r24,lo8(1)
+ 419 02a6 87BF      		out 87-32,r24
+ 420 02a8 7E01      		movw r14,r28
+ 421 02aa 0894      		sec
+ 422 02ac E11C      		adc r14,__zero_reg__
+ 423 02ae F11C      		adc r15,__zero_reg__
+GAS LISTING /tmp/ccr2l3M7.s 			page 9
+
+
+ 424 02b0 A2E0      		ldi r26,lo8(2)
+ 425 02b2 CA2E      		mov r12,r26
+ 426 02b4 D12C      		mov r13,__zero_reg__
+ 427 02b6 CC0E      		add r12,r28
+ 428 02b8 DD1E      		adc r13,r29
+ 429 02ba 00E0      		ldi r16,lo8(.LC3)
+ 430 02bc 10E0      		ldi r17,hi8(.LC3)
+ 431 02be FAEA      		ldi r31,lo8(-86)
+ 432 02c0 BF2E      		mov r11,r31
+ 433               	.L80:
+ 434 02c2 B5BA      		out 53-32,r11
+ 435 02c4 E0E0      		ldi r30,lo8(.LC6)
+ 436 02c6 F0E0      		ldi r31,hi8(.LC6)
+ 437 02c8 8AE0      		ldi r24,lo8(10)
+ 438               	.L64:
+ 439 02ca 8093 9C00 		sts 156,r24
+ 440               	.L63:
+ 441 02ce 8091 9B00 		lds r24,155
+ 442 02d2 85FF      		sbrs r24,5
+ 443 02d4 00C0      		rjmp .L63
+ 444 02d6 3196      		adiw r30,1
+ 445 02d8 8081      		ld r24,Z
+ 446 02da 8823      		tst r24
+ 447 02dc 01F4      		brne .L64
+ 448 02de 869B      		sbis 48-32,6
+ 449 02e0 00C0      		rjmp .L65
+ 450               	.L67:
+ 451 02e2 E0E0      		ldi r30,lo8(.LC7)
+ 452 02e4 F0E0      		ldi r31,hi8(.LC7)
+ 453 02e6 8AE0      		ldi r24,lo8(10)
+ 454               	.L66:
+ 455 02e8 8093 9C00 		sts 156,r24
+ 456               	.L79:
+ 457 02ec 8091 9B00 		lds r24,155
+ 458 02f0 85FF      		sbrs r24,5
+ 459 02f2 00C0      		rjmp .L79
+ 460 02f4 3196      		adiw r30,1
+ 461 02f6 8081      		ld r24,Z
+ 462 02f8 8823      		tst r24
+ 463 02fa 01F4      		brne .L66
+ 464 02fc 8DE3      		ldi r24,lo8(61)
+ 465 02fe 90E0      		ldi r25,hi8(61)
+ 466 0300 0E94 0000 		call OSTimeDly
+ 467 0304 00C0      		rjmp .L80
+ 468               	.L65:
+ 469 0306 8091 0000 		lds r24,memory
+ 470 030a 9091 0000 		lds r25,(memory)+1
+ 471 030e B701      		movw r22,r14
+ 472 0310 0E94 0000 		call OSMemGet
+ 473 0314 9093 0000 		sts (msg)+1,r25
+ 474 0318 8093 0000 		sts msg,r24
+ 475 031c 0097      		sbiw r24,0
+ 476 031e 01F0      		breq .L67
+ 477 0320 00D0      		rcall .
+ 478 0322 00D0      		rcall .
+ 479 0324 00D0      		rcall .
+ 480 0326 EDB7      		in r30,__SP_L__
+GAS LISTING /tmp/ccr2l3M7.s 			page 10
+
+
+ 481 0328 FEB7      		in r31,__SP_H__
+ 482 032a 3196      		adiw r30,1
+ 483 032c ADB7      		in r26,__SP_L__
+ 484 032e BEB7      		in r27,__SP_H__
+ 485 0330 1296      		adiw r26,1+1
+ 486 0332 DC92      		st X,r13
+ 487 0334 CE92      		st -X,r12
+ 488 0336 1197      		sbiw r26,1
+ 489 0338 1383      		std Z+3,r17
+ 490 033a 0283      		std Z+2,r16
+ 491 033c 9583      		std Z+5,r25
+ 492 033e 8483      		std Z+4,r24
+ 493 0340 0E94 0000 		call sprintf
+ 494 0344 8A81      		ldd r24,Y+2
+ 495 0346 2DB7      		in r18,__SP_L__
+ 496 0348 3EB7      		in r19,__SP_H__
+ 497 034a 2A5F      		subi r18,lo8(-(6))
+ 498 034c 3F4F      		sbci r19,hi8(-(6))
+ 499 034e 0FB6      		in __tmp_reg__,__SREG__
+ 500 0350 F894      		cli
+ 501 0352 3EBF      		out __SP_H__,r19
+ 502 0354 0FBE      		out __SREG__,__tmp_reg__
+ 503 0356 2DBF      		out __SP_L__,r18
+ 504 0358 8823      		tst r24
+ 505 035a 01F0      		breq .L68
+ 506 035c F601      		movw r30,r12
+ 507               	.L70:
+ 508 035e 8093 9C00 		sts 156,r24
+ 509               	.L69:
+ 510 0362 8091 9B00 		lds r24,155
+ 511 0366 85FF      		sbrs r24,5
+ 512 0368 00C0      		rjmp .L69
+ 513 036a 3196      		adiw r30,1
+ 514 036c 8081      		ld r24,Z
+ 515 036e 8823      		tst r24
+ 516 0370 01F4      		brne .L70
+ 517               	.L68:
+ 518 0372 E0E0      		ldi r30,lo8(.LC8)
+ 519 0374 F0E0      		ldi r31,hi8(.LC8)
+ 520 0376 8AE0      		ldi r24,lo8(10)
+ 521               	.L72:
+ 522 0378 8093 9C00 		sts 156,r24
+ 523               	.L71:
+ 524 037c 8091 9B00 		lds r24,155
+ 525 0380 85FF      		sbrs r24,5
+ 526 0382 00C0      		rjmp .L71
+ 527 0384 3196      		adiw r30,1
+ 528 0386 8081      		ld r24,Z
+ 529 0388 8823      		tst r24
+ 530 038a 01F4      		brne .L72
+ 531 038c 8091 0000 		lds r24,msg
+ 532 0390 9091 0000 		lds r25,msg+1
+ 533 0394 8093 0000 		sts ptr1,r24
+ 534 0398 9093 0000 		sts ptr1+1,r25
+ 535 039c DC01      		movw r26,r24
+ 536 039e E0E0      		ldi r30,lo8(.LC9)
+ 537 03a0 F0E0      		ldi r31,hi8(.LC9)
+GAS LISTING /tmp/ccr2l3M7.s 			page 11
+
+
+ 538 03a2 8BE0      		ldi r24,lo8(11)
+ 539               	.L73:
+ 540 03a4 0190      		ld r0,Z+
+ 541 03a6 0D92      		st X+,r0
+ 542 03a8 8150      		subi r24,lo8(-(-1))
+ 543 03aa 01F4      		brne .L73
+ 544 03ac E091 0000 		lds r30,ptr1
+ 545 03b0 F091 0000 		lds r31,(ptr1)+1
+ 546 03b4 8081      		ld r24,Z
+ 547 03b6 8823      		tst r24
+ 548 03b8 01F0      		breq .L74
+ 549               	.L82:
+ 550 03ba 8093 9C00 		sts 156,r24
+ 551               	.L75:
+ 552 03be 8091 9B00 		lds r24,155
+ 553 03c2 85FF      		sbrs r24,5
+ 554 03c4 00C0      		rjmp .L75
+ 555 03c6 3196      		adiw r30,1
+ 556 03c8 8081      		ld r24,Z
+ 557 03ca 8823      		tst r24
+ 558 03cc 01F4      		brne .L82
+ 559               	.L74:
+ 560 03ce E0E0      		ldi r30,lo8(.LC10)
+ 561 03d0 F0E0      		ldi r31,hi8(.LC10)
+ 562 03d2 8AE0      		ldi r24,lo8(10)
+ 563               	.L78:
+ 564 03d4 8093 9C00 		sts 156,r24
+ 565               	.L77:
+ 566 03d8 8091 9B00 		lds r24,155
+ 567 03dc 85FF      		sbrs r24,5
+ 568 03de 00C0      		rjmp .L77
+ 569 03e0 3196      		adiw r30,1
+ 570 03e2 8081      		ld r24,Z
+ 571 03e4 8823      		tst r24
+ 572 03e6 01F4      		brne .L78
+ 573 03e8 00C0      		rjmp .L67
+ 574               		.size	task1, .-task1
+ 575               		.comm buffer,20,1
+ 576               		.comm task1_stack,256,1
+ 577               		.comm task2_stack,256,1
+ 578               		.comm memory,2,1
+ 579               		.comm buff,40,1
+ 580               		.comm msg,2,1
+ 581               		.comm ptr1,2,1
+ 582               		.comm errmem,1,1
+GAS LISTING /tmp/ccr2l3M7.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 mem.c
+     /tmp/ccr2l3M7.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccr2l3M7.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccr2l3M7.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccr2l3M7.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccr2l3M7.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccr2l3M7.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccr2l3M7.s:13     .text:00000000 u1init
+     /tmp/ccr2l3M7.s:29     .text:00000016 u1tx
+     /tmp/ccr2l3M7.s:42     .text:00000024 u1rx
+     /tmp/ccr2l3M7.s:55     .text:00000032 u1txstr
+     /tmp/ccr2l3M7.s:77     .text:00000050 inittimer
+     /tmp/ccr2l3M7.s:94     .text:0000005c u1txnum
+                            *COM*:00000014 buffer
+     /tmp/ccr2l3M7.s:163    .text:000000c2 task2
+                            *COM*:00000002 ptr1
+                            *COM*:00000002 memory
+     /tmp/ccr2l3M7.s:320    .text:000001fa main
+     /tmp/ccr2l3M7.s:395    .text:0000027c task1
+                            *COM*:00000100 task1_stack
+                            *COM*:00000100 task2_stack
+                            *COM*:00000028 buff
+                            *COM*:00000001 errmem
+                            *COM*:00000002 msg
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+sprintf
+OSMemPut
+OSTimeDly
+OSInit
+OSTaskCreate
+OSMemCreate
+OSStart
+OSMemGet

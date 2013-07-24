@@ -1,0 +1,398 @@
+GAS LISTING /tmp/cc4Fg1tc.s 			page 1
+
+
+   1               		.file	"priorityinversion.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	u1init
+  12               		.type	u1init, @function
+  13               	u1init:
+  14               	/* prologue: function */
+  15               	/* frame size = 0 */
+  16 0000 1092 9800 		sts 152,__zero_reg__
+  17 0004 87E6      		ldi r24,lo8(103)
+  18 0006 8093 9900 		sts 153,r24
+  19 000a EAE9      		ldi r30,lo8(154)
+  20 000c F0E0      		ldi r31,hi8(154)
+  21 000e 8081      		ld r24,Z
+  22 0010 8861      		ori r24,lo8(24)
+  23 0012 8083      		st Z,r24
+  24               	/* epilogue start */
+  25 0014 0895      		ret
+  26               		.size	u1init, .-u1init
+  27               	.global	u1tx
+  28               		.type	u1tx, @function
+  29               	u1tx:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 0016 8093 9C00 		sts 156,r24
+  33               	.L4:
+  34 001a 8091 9B00 		lds r24,155
+  35 001e 85FF      		sbrs r24,5
+  36 0020 00C0      		rjmp .L4
+  37               	/* epilogue start */
+  38 0022 0895      		ret
+  39               		.size	u1tx, .-u1tx
+  40               	.global	u1rx
+  41               		.type	u1rx, @function
+  42               	u1rx:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	.L9:
+  46 0024 8091 9B00 		lds r24,155
+  47 0028 87FF      		sbrs r24,7
+  48 002a 00C0      		rjmp .L9
+  49 002c 8091 9C00 		lds r24,156
+  50               	/* epilogue start */
+  51 0030 0895      		ret
+  52               		.size	u1rx, .-u1rx
+  53               	.global	u1txstr
+  54               		.type	u1txstr, @function
+  55               	u1txstr:
+  56               	/* prologue: function */
+  57               	/* frame size = 0 */
+GAS LISTING /tmp/cc4Fg1tc.s 			page 2
+
+
+  58 0032 FC01      		movw r30,r24
+  59 0034 8081      		ld r24,Z
+  60 0036 8823      		tst r24
+  61 0038 01F0      		breq .L16
+  62               	.L17:
+  63 003a 8093 9C00 		sts 156,r24
+  64               	.L14:
+  65 003e 8091 9B00 		lds r24,155
+  66 0042 85FF      		sbrs r24,5
+  67 0044 00C0      		rjmp .L14
+  68 0046 3196      		adiw r30,1
+  69 0048 8081      		ld r24,Z
+  70 004a 8823      		tst r24
+  71 004c 01F4      		brne .L17
+  72               	.L16:
+  73 004e 0895      		ret
+  74               		.size	u1txstr, .-u1txstr
+  75               	.global	inittimer
+  76               		.type	inittimer, @function
+  77               	inittimer:
+  78               	/* prologue: function */
+  79               	/* frame size = 0 */
+  80 0050 12BE      		out 82-32,__zero_reg__
+  81 0052 87E0      		ldi r24,lo8(7)
+  82 0054 83BF      		out 83-32,r24
+  83 0056 81E0      		ldi r24,lo8(1)
+  84 0058 87BF      		out 87-32,r24
+  85               	/* epilogue start */
+  86 005a 0895      		ret
+  87               		.size	inittimer, .-inittimer
+  88               	.global	task2
+  89               		.type	task2, @function
+  90               	task2:
+  91               	/* prologue: function */
+  92               	/* frame size = 0 */
+  93 005c 80E5      		ldi r24,lo8(80)
+  94 005e 90E0      		ldi r25,hi8(80)
+  95 0060 0E94 0000 		call OSTimeDly
+  96 0064 2EEE      		ldi r18,lo8(750)
+  97 0066 32E0      		ldi r19,hi8(750)
+  98               	.L23:
+  99 0068 85B3      		in r24,53-32
+ 100 006a 8095      		com r24
+ 101 006c 85BB      		out 53-32,r24
+ 102 006e C901      		movw r24,r18
+ 103               	/* #APP */
+ 104               	 ;  105 "/usr/lib/gcc/avr/4.3.4/../../../avr/include/util/delay_basic.h" 1
+ 105 0070 0197      		1: sbiw r24,1
+ 106 0072 01F4      		brne 1b
+ 107               	 ;  0 "" 2
+ 108               	/* #NOAPP */
+ 109 0074 00C0      		rjmp .L23
+ 110               		.size	task2, .-task2
+ 111               		.data
+ 112               	.LC0:
+ 113 0000 0A54 6173 		.string	"\nTask3"
+ 113      6B33 00
+GAS LISTING /tmp/cc4Fg1tc.s 			page 3
+
+
+ 114               		.text
+ 115               	.global	task3
+ 116               		.type	task3, @function
+ 117               	task3:
+ 118               	/* prologue: function */
+ 119               	/* frame size = 0 */
+ 120               	.L29:
+ 121 0076 8091 0000 		lds r24,semph
+ 122 007a 9091 0000 		lds r25,(semph)+1
+ 123 007e 60E0      		ldi r22,lo8(0)
+ 124 0080 70E0      		ldi r23,hi8(0)
+ 125 0082 40E0      		ldi r20,lo8(err)
+ 126 0084 50E0      		ldi r21,hi8(err)
+ 127 0086 0E94 0000 		call OSSemPend
+ 128 008a 8091 0000 		lds r24,err
+ 129 008e 8823      		tst r24
+ 130 0090 01F4      		brne .L26
+ 131 0092 E0E0      		ldi r30,lo8(.LC0)
+ 132 0094 F0E0      		ldi r31,hi8(.LC0)
+ 133 0096 8AE0      		ldi r24,lo8(10)
+ 134               	.L28:
+ 135 0098 8093 9C00 		sts 156,r24
+ 136               	.L27:
+ 137 009c 8091 9B00 		lds r24,155
+ 138 00a0 85FF      		sbrs r24,5
+ 139 00a2 00C0      		rjmp .L27
+ 140 00a4 3196      		adiw r30,1
+ 141 00a6 8081      		ld r24,Z
+ 142 00a8 8823      		tst r24
+ 143 00aa 01F4      		brne .L28
+ 144               	.L26:
+ 145 00ac 87E0      		ldi r24,lo8(7)
+ 146 00ae 90E0      		ldi r25,hi8(7)
+ 147 00b0 0E94 0000 		call OSTimeDly
+ 148 00b4 8091 0000 		lds r24,semph
+ 149 00b8 9091 0000 		lds r25,(semph)+1
+ 150 00bc 0E94 0000 		call OSSemPost
+ 151 00c0 8CE3      		ldi r24,lo8(60)
+ 152 00c2 90E0      		ldi r25,hi8(60)
+ 153 00c4 0E94 0000 		call OSTimeDly
+ 154 00c8 00C0      		rjmp .L29
+ 155               		.size	task3, .-task3
+ 156               		.data
+ 157               	.LC1:
+ 158 0007 0A54 6173 		.string	"\nTask1"
+ 158      6B31 00
+ 159               		.text
+ 160               	.global	task1
+ 161               		.type	task1, @function
+ 162               	task1:
+ 163               	/* prologue: function */
+ 164               	/* frame size = 0 */
+ 165 00ca 12BE      		out 82-32,__zero_reg__
+ 166 00cc 87E0      		ldi r24,lo8(7)
+ 167 00ce 83BF      		out 83-32,r24
+ 168 00d0 81E0      		ldi r24,lo8(1)
+ 169 00d2 87BF      		out 87-32,r24
+GAS LISTING /tmp/cc4Fg1tc.s 			page 4
+
+
+ 170               	.L37:
+ 171 00d4 8FE0      		ldi r24,lo8(15)
+ 172 00d6 90E0      		ldi r25,hi8(15)
+ 173 00d8 0E94 0000 		call OSTimeDly
+ 174 00dc 8091 0000 		lds r24,semph
+ 175 00e0 9091 0000 		lds r25,(semph)+1
+ 176 00e4 60E0      		ldi r22,lo8(0)
+ 177 00e6 70E0      		ldi r23,hi8(0)
+ 178 00e8 40E0      		ldi r20,lo8(err)
+ 179 00ea 50E0      		ldi r21,hi8(err)
+ 180 00ec 0E94 0000 		call OSSemPend
+ 181 00f0 8091 0000 		lds r24,err
+ 182 00f4 8823      		tst r24
+ 183 00f6 01F4      		brne .L34
+ 184 00f8 E0E0      		ldi r30,lo8(.LC1)
+ 185 00fa F0E0      		ldi r31,hi8(.LC1)
+ 186 00fc 8AE0      		ldi r24,lo8(10)
+ 187               	.L36:
+ 188 00fe 8093 9C00 		sts 156,r24
+ 189               	.L35:
+ 190 0102 8091 9B00 		lds r24,155
+ 191 0106 85FF      		sbrs r24,5
+ 192 0108 00C0      		rjmp .L35
+ 193 010a 3196      		adiw r30,1
+ 194 010c 8081      		ld r24,Z
+ 195 010e 8823      		tst r24
+ 196 0110 01F4      		brne .L36
+ 197               	.L34:
+ 198 0112 81E0      		ldi r24,lo8(1)
+ 199 0114 90E0      		ldi r25,hi8(1)
+ 200 0116 0E94 0000 		call OSTimeDly
+ 201 011a 8091 0000 		lds r24,semph
+ 202 011e 9091 0000 		lds r25,(semph)+1
+ 203 0122 0E94 0000 		call OSSemPost
+ 204 0126 82E0      		ldi r24,lo8(2)
+ 205 0128 90E0      		ldi r25,hi8(2)
+ 206 012a 0E94 0000 		call OSTimeDly
+ 207 012e 00C0      		rjmp .L37
+ 208               		.size	task1, .-task1
+ 209               		.data
+ 210               	.LC2:
+ 211 000e 0A20 00   		.string	"\n "
+ 212               		.text
+ 213               	.global	main
+ 214               		.type	main, @function
+ 215               	main:
+ 216               	/* prologue: function */
+ 217               	/* frame size = 0 */
+ 218 0130 0E94 0000 		call OSInit
+ 219 0134 80E0      		ldi r24,lo8(gs(task1))
+ 220 0136 90E0      		ldi r25,hi8(gs(task1))
+ 221 0138 60E0      		ldi r22,lo8(0)
+ 222 013a 70E0      		ldi r23,hi8(0)
+ 223 013c 40E0      		ldi r20,lo8(task1_stack+255)
+ 224 013e 50E0      		ldi r21,hi8(task1_stack+255)
+ 225 0140 24E0      		ldi r18,lo8(4)
+ 226 0142 0E94 0000 		call OSTaskCreate
+GAS LISTING /tmp/cc4Fg1tc.s 			page 5
+
+
+ 227 0146 80E0      		ldi r24,lo8(gs(task2))
+ 228 0148 90E0      		ldi r25,hi8(gs(task2))
+ 229 014a 60E0      		ldi r22,lo8(0)
+ 230 014c 70E0      		ldi r23,hi8(0)
+ 231 014e 40E0      		ldi r20,lo8(task2_stack+255)
+ 232 0150 50E0      		ldi r21,hi8(task2_stack+255)
+ 233 0152 25E0      		ldi r18,lo8(5)
+ 234 0154 0E94 0000 		call OSTaskCreate
+ 235 0158 80E0      		ldi r24,lo8(gs(task3))
+ 236 015a 90E0      		ldi r25,hi8(gs(task3))
+ 237 015c 60E0      		ldi r22,lo8(0)
+ 238 015e 70E0      		ldi r23,hi8(0)
+ 239 0160 40E0      		ldi r20,lo8(task3_stack+255)
+ 240 0162 50E0      		ldi r21,hi8(task3_stack+255)
+ 241 0164 26E0      		ldi r18,lo8(6)
+ 242 0166 0E94 0000 		call OSTaskCreate
+ 243 016a 81E0      		ldi r24,lo8(1)
+ 244 016c 90E0      		ldi r25,hi8(1)
+ 245 016e 0E94 0000 		call OSSemCreate
+ 246 0172 9093 0000 		sts (semph)+1,r25
+ 247 0176 8093 0000 		sts semph,r24
+ 248 017a 1092 9800 		sts 152,__zero_reg__
+ 249 017e 87E6      		ldi r24,lo8(103)
+ 250 0180 8093 9900 		sts 153,r24
+ 251 0184 8091 9A00 		lds r24,154
+ 252 0188 8861      		ori r24,lo8(24)
+ 253 018a 8093 9A00 		sts 154,r24
+ 254 018e 8FEF      		ldi r24,lo8(-1)
+ 255 0190 84BB      		out 52-32,r24
+ 256 0192 0E94 0000 		call OSStart
+ 257 0196 E0E0      		ldi r30,lo8(.LC2)
+ 258 0198 F0E0      		ldi r31,hi8(.LC2)
+ 259 019a 8AE0      		ldi r24,lo8(10)
+ 260               	.L43:
+ 261 019c 8093 9C00 		sts 156,r24
+ 262               	.L42:
+ 263 01a0 8091 9B00 		lds r24,155
+ 264 01a4 85FF      		sbrs r24,5
+ 265 01a6 00C0      		rjmp .L42
+ 266 01a8 3196      		adiw r30,1
+ 267 01aa 8081      		ld r24,Z
+ 268 01ac 8823      		tst r24
+ 269 01ae 01F4      		brne .L43
+ 270               	/* epilogue start */
+ 271 01b0 0895      		ret
+ 272               		.size	main, .-main
+ 273               		.data
+ 274               	.LC3:
+ 275 0011 2564 00   		.string	"%d"
+ 276               		.text
+ 277               	.global	u1txnum
+ 278               		.type	u1txnum, @function
+ 279               	u1txnum:
+ 280 01b2 CF93      		push r28
+ 281 01b4 DF93      		push r29
+ 282               	/* prologue: function */
+ 283               	/* frame size = 0 */
+GAS LISTING /tmp/cc4Fg1tc.s 			page 6
+
+
+ 284 01b6 00D0      		rcall .
+ 285 01b8 00D0      		rcall .
+ 286 01ba 00D0      		rcall .
+ 287 01bc EDB7      		in r30,__SP_L__
+ 288 01be FEB7      		in r31,__SP_H__
+ 289 01c0 3196      		adiw r30,1
+ 290 01c2 C0E0      		ldi r28,lo8(buffer)
+ 291 01c4 D0E0      		ldi r29,hi8(buffer)
+ 292 01c6 ADB7      		in r26,__SP_L__
+ 293 01c8 BEB7      		in r27,__SP_H__
+ 294 01ca 1296      		adiw r26,1+1
+ 295 01cc DC93      		st X,r29
+ 296 01ce CE93      		st -X,r28
+ 297 01d0 1197      		sbiw r26,1
+ 298 01d2 20E0      		ldi r18,lo8(.LC3)
+ 299 01d4 30E0      		ldi r19,hi8(.LC3)
+ 300 01d6 3383      		std Z+3,r19
+ 301 01d8 2283      		std Z+2,r18
+ 302 01da 9583      		std Z+5,r25
+ 303 01dc 8483      		std Z+4,r24
+ 304 01de 0E94 0000 		call sprintf
+ 305 01e2 8091 0000 		lds r24,buffer
+ 306 01e6 2DB7      		in r18,__SP_L__
+ 307 01e8 3EB7      		in r19,__SP_H__
+ 308 01ea 2A5F      		subi r18,lo8(-(6))
+ 309 01ec 3F4F      		sbci r19,hi8(-(6))
+ 310 01ee 0FB6      		in __tmp_reg__,__SREG__
+ 311 01f0 F894      		cli
+ 312 01f2 3EBF      		out __SP_H__,r19
+ 313 01f4 0FBE      		out __SREG__,__tmp_reg__
+ 314 01f6 2DBF      		out __SP_L__,r18
+ 315 01f8 8823      		tst r24
+ 316 01fa 01F0      		breq .L51
+ 317 01fc FE01      		movw r30,r28
+ 318               	.L50:
+ 319 01fe 8093 9C00 		sts 156,r24
+ 320               	.L49:
+ 321 0202 8091 9B00 		lds r24,155
+ 322 0206 85FF      		sbrs r24,5
+ 323 0208 00C0      		rjmp .L49
+ 324 020a 3196      		adiw r30,1
+ 325 020c 8081      		ld r24,Z
+ 326 020e 8823      		tst r24
+ 327 0210 01F4      		brne .L50
+ 328               	.L51:
+ 329               	/* epilogue start */
+ 330 0212 DF91      		pop r29
+ 331 0214 CF91      		pop r28
+ 332 0216 0895      		ret
+ 333               		.size	u1txnum, .-u1txnum
+ 334               		.comm buffer,20,1
+ 335               		.comm task1_stack,256,1
+ 336               		.comm task2_stack,256,1
+ 337               		.comm task3_stack,256,1
+ 338               		.comm semph,2,1
+ 339               		.comm err,1,1
+GAS LISTING /tmp/cc4Fg1tc.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 priorityinversion.c
+     /tmp/cc4Fg1tc.s:2      *ABS*:0000003f __SREG__
+     /tmp/cc4Fg1tc.s:3      *ABS*:0000003e __SP_H__
+     /tmp/cc4Fg1tc.s:4      *ABS*:0000003d __SP_L__
+     /tmp/cc4Fg1tc.s:5      *ABS*:00000034 __CCP__
+     /tmp/cc4Fg1tc.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/cc4Fg1tc.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/cc4Fg1tc.s:13     .text:00000000 u1init
+     /tmp/cc4Fg1tc.s:29     .text:00000016 u1tx
+     /tmp/cc4Fg1tc.s:42     .text:00000024 u1rx
+     /tmp/cc4Fg1tc.s:55     .text:00000032 u1txstr
+     /tmp/cc4Fg1tc.s:77     .text:00000050 inittimer
+     /tmp/cc4Fg1tc.s:90     .text:0000005c task2
+     /tmp/cc4Fg1tc.s:117    .text:00000076 task3
+                            *COM*:00000002 semph
+                            *COM*:00000001 err
+     /tmp/cc4Fg1tc.s:162    .text:000000ca task1
+     /tmp/cc4Fg1tc.s:215    .text:00000130 main
+                            *COM*:00000100 task1_stack
+                            *COM*:00000100 task2_stack
+                            *COM*:00000100 task3_stack
+     /tmp/cc4Fg1tc.s:279    .text:000001b2 u1txnum
+                            *COM*:00000014 buffer
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+OSTimeDly
+OSSemPend
+OSSemPost
+OSInit
+OSTaskCreate
+OSSemCreate
+OSStart
+sprintf

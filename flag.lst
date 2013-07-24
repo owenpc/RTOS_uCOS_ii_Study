@@ -1,0 +1,435 @@
+GAS LISTING /tmp/ccuTAby3.s 			page 1
+
+
+   1               		.file	"flag.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.text
+  11               	.global	u1init
+  12               		.type	u1init, @function
+  13               	u1init:
+  14               	/* prologue: function */
+  15               	/* frame size = 0 */
+  16 0000 1092 9800 		sts 152,__zero_reg__
+  17 0004 87E6      		ldi r24,lo8(103)
+  18 0006 8093 9900 		sts 153,r24
+  19 000a EAE9      		ldi r30,lo8(154)
+  20 000c F0E0      		ldi r31,hi8(154)
+  21 000e 8081      		ld r24,Z
+  22 0010 8861      		ori r24,lo8(24)
+  23 0012 8083      		st Z,r24
+  24               	/* epilogue start */
+  25 0014 0895      		ret
+  26               		.size	u1init, .-u1init
+  27               	.global	u1tx
+  28               		.type	u1tx, @function
+  29               	u1tx:
+  30               	/* prologue: function */
+  31               	/* frame size = 0 */
+  32 0016 8093 9C00 		sts 156,r24
+  33               	.L4:
+  34 001a 8091 9B00 		lds r24,155
+  35 001e 85FF      		sbrs r24,5
+  36 0020 00C0      		rjmp .L4
+  37               	/* epilogue start */
+  38 0022 0895      		ret
+  39               		.size	u1tx, .-u1tx
+  40               	.global	u1rx
+  41               		.type	u1rx, @function
+  42               	u1rx:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	.L9:
+  46 0024 8091 9B00 		lds r24,155
+  47 0028 87FF      		sbrs r24,7
+  48 002a 00C0      		rjmp .L9
+  49 002c 8091 9C00 		lds r24,156
+  50               	/* epilogue start */
+  51 0030 0895      		ret
+  52               		.size	u1rx, .-u1rx
+  53               	.global	u1txstr
+  54               		.type	u1txstr, @function
+  55               	u1txstr:
+  56               	/* prologue: function */
+  57               	/* frame size = 0 */
+GAS LISTING /tmp/ccuTAby3.s 			page 2
+
+
+  58 0032 FC01      		movw r30,r24
+  59 0034 8081      		ld r24,Z
+  60 0036 8823      		tst r24
+  61 0038 01F0      		breq .L16
+  62               	.L17:
+  63 003a 8093 9C00 		sts 156,r24
+  64               	.L14:
+  65 003e 8091 9B00 		lds r24,155
+  66 0042 85FF      		sbrs r24,5
+  67 0044 00C0      		rjmp .L14
+  68 0046 3196      		adiw r30,1
+  69 0048 8081      		ld r24,Z
+  70 004a 8823      		tst r24
+  71 004c 01F4      		brne .L17
+  72               	.L16:
+  73 004e 0895      		ret
+  74               		.size	u1txstr, .-u1txstr
+  75               	.global	inittimer
+  76               		.type	inittimer, @function
+  77               	inittimer:
+  78               	/* prologue: function */
+  79               	/* frame size = 0 */
+  80 0050 12BE      		out 82-32,__zero_reg__
+  81 0052 87E0      		ldi r24,lo8(7)
+  82 0054 83BF      		out 83-32,r24
+  83 0056 81E0      		ldi r24,lo8(1)
+  84 0058 87BF      		out 87-32,r24
+  85               	/* epilogue start */
+  86 005a 0895      		ret
+  87               		.size	inittimer, .-inittimer
+  88               		.data
+  89               	.LC0:
+  90 0000 2564 00   		.string	"%d"
+  91               		.text
+  92               	.global	u1txnum
+  93               		.type	u1txnum, @function
+  94               	u1txnum:
+  95 005c CF93      		push r28
+  96 005e DF93      		push r29
+  97               	/* prologue: function */
+  98               	/* frame size = 0 */
+  99 0060 00D0      		rcall .
+ 100 0062 00D0      		rcall .
+ 101 0064 00D0      		rcall .
+ 102 0066 EDB7      		in r30,__SP_L__
+ 103 0068 FEB7      		in r31,__SP_H__
+ 104 006a 3196      		adiw r30,1
+ 105 006c C0E0      		ldi r28,lo8(buffer)
+ 106 006e D0E0      		ldi r29,hi8(buffer)
+ 107 0070 ADB7      		in r26,__SP_L__
+ 108 0072 BEB7      		in r27,__SP_H__
+ 109 0074 1296      		adiw r26,1+1
+ 110 0076 DC93      		st X,r29
+ 111 0078 CE93      		st -X,r28
+ 112 007a 1197      		sbiw r26,1
+ 113 007c 20E0      		ldi r18,lo8(.LC0)
+ 114 007e 30E0      		ldi r19,hi8(.LC0)
+GAS LISTING /tmp/ccuTAby3.s 			page 3
+
+
+ 115 0080 3383      		std Z+3,r19
+ 116 0082 2283      		std Z+2,r18
+ 117 0084 9583      		std Z+5,r25
+ 118 0086 8483      		std Z+4,r24
+ 119 0088 0E94 0000 		call sprintf
+ 120 008c 8091 0000 		lds r24,buffer
+ 121 0090 2DB7      		in r18,__SP_L__
+ 122 0092 3EB7      		in r19,__SP_H__
+ 123 0094 2A5F      		subi r18,lo8(-(6))
+ 124 0096 3F4F      		sbci r19,hi8(-(6))
+ 125 0098 0FB6      		in __tmp_reg__,__SREG__
+ 126 009a F894      		cli
+ 127 009c 3EBF      		out __SP_H__,r19
+ 128 009e 0FBE      		out __SREG__,__tmp_reg__
+ 129 00a0 2DBF      		out __SP_L__,r18
+ 130 00a2 8823      		tst r24
+ 131 00a4 01F0      		breq .L26
+ 132 00a6 FE01      		movw r30,r28
+ 133               	.L25:
+ 134 00a8 8093 9C00 		sts 156,r24
+ 135               	.L24:
+ 136 00ac 8091 9B00 		lds r24,155
+ 137 00b0 85FF      		sbrs r24,5
+ 138 00b2 00C0      		rjmp .L24
+ 139 00b4 3196      		adiw r30,1
+ 140 00b6 8081      		ld r24,Z
+ 141 00b8 8823      		tst r24
+ 142 00ba 01F4      		brne .L25
+ 143               	.L26:
+ 144               	/* epilogue start */
+ 145 00bc DF91      		pop r29
+ 146 00be CF91      		pop r28
+ 147 00c0 0895      		ret
+ 148               		.size	u1txnum, .-u1txnum
+ 149               		.data
+ 150               	.LC1:
+ 151 0003 0A46 6C61 		.string	"\nFlag read"
+ 151      6720 7265 
+ 151      6164 00
+ 152               	.LC2:
+ 153 000e 0A46 6C61 		.string	"\nFlags = %p"
+ 153      6773 203D 
+ 153      2025 7000 
+ 154               		.text
+ 155               	.global	task2
+ 156               		.type	task2, @function
+ 157               	task2:
+ 158 00c2 9F92      		push r9
+ 159 00c4 AF92      		push r10
+ 160 00c6 BF92      		push r11
+ 161 00c8 CF92      		push r12
+ 162 00ca DF92      		push r13
+ 163 00cc EF92      		push r14
+ 164 00ce FF92      		push r15
+ 165 00d0 0F93      		push r16
+ 166 00d2 1F93      		push r17
+ 167 00d4 DF93      		push r29
+GAS LISTING /tmp/ccuTAby3.s 			page 4
+
+
+ 168 00d6 CF93      		push r28
+ 169 00d8 CDB7      		in r28,__SP_L__
+ 170 00da DEB7      		in r29,__SP_H__
+ 171 00dc 6F97      		sbiw r28,31
+ 172 00de 0FB6      		in __tmp_reg__,__SREG__
+ 173 00e0 F894      		cli
+ 174 00e2 DEBF      		out __SP_H__,r29
+ 175 00e4 0FBE      		out __SREG__,__tmp_reg__
+ 176 00e6 CDBF      		out __SP_L__,r28
+ 177               	/* prologue: function */
+ 178               	/* frame size = 31 */
+ 179 00e8 7E01      		movw r14,r28
+ 180 00ea 0894      		sec
+ 181 00ec E11C      		adc r14,__zero_reg__
+ 182 00ee F11C      		adc r15,__zero_reg__
+ 183 00f0 22E0      		ldi r18,lo8(2)
+ 184 00f2 C22E      		mov r12,r18
+ 185 00f4 D12C      		mov r13,__zero_reg__
+ 186 00f6 CC0E      		add r12,r28
+ 187 00f8 DD1E      		adc r13,r29
+ 188 00fa 90E0      		ldi r25,lo8(.LC2)
+ 189 00fc A92E      		mov r10,r25
+ 190 00fe 90E0      		ldi r25,hi8(.LC2)
+ 191 0100 B92E      		mov r11,r25
+ 192 0102 85E5      		ldi r24,lo8(85)
+ 193 0104 982E      		mov r9,r24
+ 194               	.L35:
+ 195 0106 95BA      		out 53-32,r9
+ 196 0108 8091 0000 		lds r24,myflag
+ 197 010c 9091 0000 		lds r25,(myflag)+1
+ 198 0110 62E0      		ldi r22,lo8(2)
+ 199 0112 43E0      		ldi r20,lo8(3)
+ 200 0114 20E0      		ldi r18,lo8(0)
+ 201 0116 30E0      		ldi r19,hi8(0)
+ 202 0118 8701      		movw r16,r14
+ 203 011a 0E94 0000 		call OSFlagPend
+ 204 011e 982F      		mov r25,r24
+ 205 0120 8981      		ldd r24,Y+1
+ 206 0122 8823      		tst r24
+ 207 0124 01F4      		brne .L30
+ 208 0126 E0E0      		ldi r30,lo8(.LC1)
+ 209 0128 F0E0      		ldi r31,hi8(.LC1)
+ 210 012a 8AE0      		ldi r24,lo8(10)
+ 211               	.L32:
+ 212 012c 8093 9C00 		sts 156,r24
+ 213               	.L31:
+ 214 0130 8091 9B00 		lds r24,155
+ 215 0134 85FF      		sbrs r24,5
+ 216 0136 00C0      		rjmp .L31
+ 217 0138 3196      		adiw r30,1
+ 218 013a 8081      		ld r24,Z
+ 219 013c 8823      		tst r24
+ 220 013e 01F4      		brne .L32
+ 221 0140 00D0      		rcall .
+ 222 0142 00D0      		rcall .
+ 223 0144 00D0      		rcall .
+ 224 0146 EDB7      		in r30,__SP_L__
+GAS LISTING /tmp/ccuTAby3.s 			page 5
+
+
+ 225 0148 FEB7      		in r31,__SP_H__
+ 226 014a 3196      		adiw r30,1
+ 227 014c ADB7      		in r26,__SP_L__
+ 228 014e BEB7      		in r27,__SP_H__
+ 229 0150 1296      		adiw r26,1+1
+ 230 0152 DC92      		st X,r13
+ 231 0154 CE92      		st -X,r12
+ 232 0156 1197      		sbiw r26,1
+ 233 0158 B382      		std Z+3,r11
+ 234 015a A282      		std Z+2,r10
+ 235 015c 9483      		std Z+4,r25
+ 236 015e 1582      		std Z+5,__zero_reg__
+ 237 0160 0E94 0000 		call sprintf
+ 238 0164 8A81      		ldd r24,Y+2
+ 239 0166 2DB7      		in r18,__SP_L__
+ 240 0168 3EB7      		in r19,__SP_H__
+ 241 016a 2A5F      		subi r18,lo8(-(6))
+ 242 016c 3F4F      		sbci r19,hi8(-(6))
+ 243 016e 0FB6      		in __tmp_reg__,__SREG__
+ 244 0170 F894      		cli
+ 245 0172 3EBF      		out __SP_H__,r19
+ 246 0174 0FBE      		out __SREG__,__tmp_reg__
+ 247 0176 2DBF      		out __SP_L__,r18
+ 248 0178 8823      		tst r24
+ 249 017a 01F0      		breq .L30
+ 250 017c F601      		movw r30,r12
+ 251               	.L34:
+ 252 017e 8093 9C00 		sts 156,r24
+ 253               	.L33:
+ 254 0182 8091 9B00 		lds r24,155
+ 255 0186 85FF      		sbrs r24,5
+ 256 0188 00C0      		rjmp .L33
+ 257 018a 3196      		adiw r30,1
+ 258 018c 8081      		ld r24,Z
+ 259 018e 8823      		tst r24
+ 260 0190 01F4      		brne .L34
+ 261               	.L30:
+ 262 0192 8DE3      		ldi r24,lo8(61)
+ 263 0194 90E0      		ldi r25,hi8(61)
+ 264 0196 0E94 0000 		call OSTimeDly
+ 265 019a 00C0      		rjmp .L35
+ 266               		.size	task2, .-task2
+ 267               		.data
+ 268               	.LC3:
+ 269 001a 0A46 6C61 		.string	"\nFlag updated"
+ 269      6720 7570 
+ 269      6461 7465 
+ 269      6400 
+ 270               		.text
+ 271               	.global	task1
+ 272               		.type	task1, @function
+ 273               	task1:
+ 274 019c FF92      		push r15
+ 275 019e 0F93      		push r16
+ 276 01a0 1F93      		push r17
+ 277 01a2 DF93      		push r29
+ 278 01a4 CF93      		push r28
+GAS LISTING /tmp/ccuTAby3.s 			page 6
+
+
+ 279 01a6 0F92      		push __tmp_reg__
+ 280 01a8 CDB7      		in r28,__SP_L__
+ 281 01aa DEB7      		in r29,__SP_H__
+ 282               	/* prologue: function */
+ 283               	/* frame size = 1 */
+ 284 01ac 12BE      		out 82-32,__zero_reg__
+ 285 01ae 87E0      		ldi r24,lo8(7)
+ 286 01b0 83BF      		out 83-32,r24
+ 287 01b2 81E0      		ldi r24,lo8(1)
+ 288 01b4 87BF      		out 87-32,r24
+ 289 01b6 8E01      		movw r16,r28
+ 290 01b8 0F5F      		subi r16,lo8(-(1))
+ 291 01ba 1F4F      		sbci r17,hi8(-(1))
+ 292 01bc 3AEA      		ldi r19,lo8(-86)
+ 293 01be F32E      		mov r15,r19
+ 294               	.L45:
+ 295 01c0 F5BA      		out 53-32,r15
+ 296 01c2 8091 0000 		lds r24,myflag
+ 297 01c6 9091 0000 		lds r25,(myflag)+1
+ 298 01ca 62E0      		ldi r22,lo8(2)
+ 299 01cc 41E0      		ldi r20,lo8(1)
+ 300 01ce 9801      		movw r18,r16
+ 301 01d0 0E94 0000 		call OSFlagPost
+ 302 01d4 8981      		ldd r24,Y+1
+ 303 01d6 8823      		tst r24
+ 304 01d8 01F4      		brne .L42
+ 305 01da E0E0      		ldi r30,lo8(.LC3)
+ 306 01dc F0E0      		ldi r31,hi8(.LC3)
+ 307 01de 8AE0      		ldi r24,lo8(10)
+ 308               	.L44:
+ 309 01e0 8093 9C00 		sts 156,r24
+ 310               	.L43:
+ 311 01e4 8091 9B00 		lds r24,155
+ 312 01e8 85FF      		sbrs r24,5
+ 313 01ea 00C0      		rjmp .L43
+ 314 01ec 3196      		adiw r30,1
+ 315 01ee 8081      		ld r24,Z
+ 316 01f0 8823      		tst r24
+ 317 01f2 01F4      		brne .L44
+ 318               	.L42:
+ 319 01f4 8DE3      		ldi r24,lo8(61)
+ 320 01f6 90E0      		ldi r25,hi8(61)
+ 321 01f8 0E94 0000 		call OSTimeDly
+ 322 01fc 00C0      		rjmp .L45
+ 323               		.size	task1, .-task1
+ 324               	.global	main
+ 325               		.type	main, @function
+ 326               	main:
+ 327               	/* prologue: function */
+ 328               	/* frame size = 0 */
+ 329 01fe 0E94 0000 		call OSInit
+ 330 0202 80E0      		ldi r24,lo8(gs(task1))
+ 331 0204 90E0      		ldi r25,hi8(gs(task1))
+ 332 0206 60E0      		ldi r22,lo8(0)
+ 333 0208 70E0      		ldi r23,hi8(0)
+ 334 020a 40E0      		ldi r20,lo8(task1_stack+255)
+ 335 020c 50E0      		ldi r21,hi8(task1_stack+255)
+GAS LISTING /tmp/ccuTAby3.s 			page 7
+
+
+ 336 020e 24E0      		ldi r18,lo8(4)
+ 337 0210 0E94 0000 		call OSTaskCreate
+ 338 0214 80E0      		ldi r24,lo8(gs(task2))
+ 339 0216 90E0      		ldi r25,hi8(gs(task2))
+ 340 0218 60E0      		ldi r22,lo8(0)
+ 341 021a 70E0      		ldi r23,hi8(0)
+ 342 021c 40E0      		ldi r20,lo8(task2_stack+255)
+ 343 021e 50E0      		ldi r21,hi8(task2_stack+255)
+ 344 0220 25E0      		ldi r18,lo8(5)
+ 345 0222 0E94 0000 		call OSTaskCreate
+ 346 0226 80E0      		ldi r24,lo8(0)
+ 347 0228 60E0      		ldi r22,lo8(errflag)
+ 348 022a 70E0      		ldi r23,hi8(errflag)
+ 349 022c 0E94 0000 		call OSFlagCreate
+ 350 0230 9093 0000 		sts (myflag)+1,r25
+ 351 0234 8093 0000 		sts myflag,r24
+ 352 0238 1092 9800 		sts 152,__zero_reg__
+ 353 023c 87E6      		ldi r24,lo8(103)
+ 354 023e 8093 9900 		sts 153,r24
+ 355 0242 EAE9      		ldi r30,lo8(154)
+ 356 0244 F0E0      		ldi r31,hi8(154)
+ 357 0246 8081      		ld r24,Z
+ 358 0248 8861      		ori r24,lo8(24)
+ 359 024a 8083      		st Z,r24
+ 360 024c 8FEF      		ldi r24,lo8(-1)
+ 361 024e 84BB      		out 52-32,r24
+ 362 0250 0E94 0000 		call OSStart
+ 363               	/* epilogue start */
+ 364 0254 0895      		ret
+ 365               		.size	main, .-main
+ 366               		.comm buffer,20,1
+ 367               		.comm task1_stack,256,1
+ 368               		.comm task2_stack,256,1
+ 369               		.comm myflag,2,1
+ 370               		.comm errflag,1,1
+GAS LISTING /tmp/ccuTAby3.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 flag.c
+     /tmp/ccuTAby3.s:2      *ABS*:0000003f __SREG__
+     /tmp/ccuTAby3.s:3      *ABS*:0000003e __SP_H__
+     /tmp/ccuTAby3.s:4      *ABS*:0000003d __SP_L__
+     /tmp/ccuTAby3.s:5      *ABS*:00000034 __CCP__
+     /tmp/ccuTAby3.s:6      *ABS*:00000000 __tmp_reg__
+     /tmp/ccuTAby3.s:7      *ABS*:00000001 __zero_reg__
+     /tmp/ccuTAby3.s:13     .text:00000000 u1init
+     /tmp/ccuTAby3.s:29     .text:00000016 u1tx
+     /tmp/ccuTAby3.s:42     .text:00000024 u1rx
+     /tmp/ccuTAby3.s:55     .text:00000032 u1txstr
+     /tmp/ccuTAby3.s:77     .text:00000050 inittimer
+     /tmp/ccuTAby3.s:94     .text:0000005c u1txnum
+                            *COM*:00000014 buffer
+     /tmp/ccuTAby3.s:157    .text:000000c2 task2
+                            *COM*:00000002 myflag
+     /tmp/ccuTAby3.s:273    .text:0000019c task1
+     /tmp/ccuTAby3.s:326    .text:000001fe main
+                            *COM*:00000100 task1_stack
+                            *COM*:00000100 task2_stack
+                            *COM*:00000001 errflag
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+sprintf
+OSFlagPend
+OSTimeDly
+OSFlagPost
+OSInit
+OSTaskCreate
+OSFlagCreate
+OSStart
